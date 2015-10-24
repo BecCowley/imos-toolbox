@@ -206,7 +206,6 @@ for i=1:lenSampleData
             %get time and var QC information
             timeFlags = sample_data{iSort(i)}.dimensions{iTime}.flags;
             varFlags = sample_data{iSort(i)}.(typeVar){iVar}.flags;
-            
             iGood = ismember(timeFlags, goodFlags) & ismember(varFlags, goodFlags);
         end
         

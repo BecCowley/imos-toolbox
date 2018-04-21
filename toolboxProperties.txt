@@ -40,7 +40,7 @@ exportNetCDF.dateFormat = yyyy-mm-ddTHH:MM:SSZ
 exportNetCDF.fileDateFormat = yyyymmddTHHMMSSZ
 
 % default set of auto QC routines
-autoQCManager.autoQCChain.timeSeries = imosSideLobeVelocitySetQC imosInOutWaterQC imosSalinityFromPTQC imosImpossibleDateQC imosImpossibleDepthQC imosEchoIntensityVelocitySetQC imosErrorVelocitySetQC imosCorrMagVelocitySetQC
+autoQCManager.autoQCChain.timeSeries = imosSideLobeVelocitySetQC imosInOutWaterQC imosSalinityFromPTQC imosImpossibleDateQC imosEchoIntensityVelocitySetQC imosErrorVelocitySetQC imosCorrMagVelocitySetQC imosImpossibleDepthQC
 autoQCManager.autoQCChain.profile = imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosGlobalRangeQC imosImpossibleDepthQC imosSalinityFromPTQC imosHistoricalManualSetQC
 
 % prompt for preprocessing (if false, 
@@ -48,7 +48,7 @@ autoQCManager.autoQCChain.profile = imosImpossibleDateQC imosImpossibleLocationS
 preprocessManager.preprocessPrompt = true
 
 % default set of preprocessing routines
-preprocessManager.preprocessChain.timeSeries = timeDriftPP salinityPP rdiBinMappingVelocityPP magneticDeclinationPP depthPP
+preprocessManager.preprocessChain.timeSeries = timeDriftPP salinityPP magneticDeclinationPP depthPP pressureRelPP
 preprocessManager.preprocessChain.profile = depthPP salinityPP
 
 % file status dialog formatting styles

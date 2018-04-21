@@ -43,7 +43,7 @@ N, geospatial_lon_max       = [ddb Site Sites Longitude]
 N, instrument_nominal_height= 
 N, instrument_nominal_depth = [mat sample_data.meta.deployment.InstrumentNominalDepth]
 N, site_nominal_depth       = 
-N, site_depth_at_deployment = 
+N, site_depth_at_deployment = [mat sample_data.meta.deployment.SiteDepth]
 
 % if left empty, these fields are automatically populated upon import 
 % when DEPTH variable exist (if not use depthPP pre-processing routine)

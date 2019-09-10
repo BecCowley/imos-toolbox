@@ -28,33 +28,21 @@ function sample_data = timeOffsetPP(sample_data, qcLevel, auto)
 %
 
 %
-% Copyright (c) 2009, eMarine Information Infrastructure (eMII) and Integrated 
+% Copyright (C) 2017, Australian Ocean Data Network (AODN) and Integrated 
 % Marine Observing System (IMOS).
-% All rights reserved.
-% 
-% Redistribution and use in source and binary forms, with or without 
-% modification, are permitted provided that the following conditions are met:
-% 
-%     * Redistributions of source code must retain the above copyright notice, 
-%       this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright 
-%       notice, this list of conditions and the following disclaimer in the 
-%       documentation and/or other materials provided with the distribution.
-%     * Neither the name of the eMII/IMOS nor the names of its contributors 
-%       may be used to endorse or promote products derived from this software 
-%       without specific prior written permission.
-% 
-% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-% POSSIBILITY OF SUCH DAMAGE.
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation version 3 of the License.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program.
+% If not, see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 %
 
   narginchk(2,3);
@@ -64,20 +52,17 @@ function sample_data = timeOffsetPP(sample_data, qcLevel, auto)
   
   % auto logical in input to enable running under batch processing
   if nargin<3, auto=false; end
-
-  % time offsets are already performed on raw FV00 dataset which then go through
-  % this pp to generate the qc'd FV01 dataset.
-  if strcmpi(qcLevel, 'qc'), return; end
   
   offsetFile = ['Preprocessing' filesep 'timeOffsetPP.txt'];
 
+  nSample = length(sample_data);
   descs     = {};
   timezones = {};
   offsets   = [];
-  sets      = ones(length(sample_data), 1);
+  sets      = ones(nSample, 1);
   
   % create descriptions, and get timezones/offsets for each data set
-  for k = 1:length(sample_data)
+  for k = 1:nSample
     
     descs{k} = genSampleDataDesc(sample_data{k});
     
@@ -117,7 +102,7 @@ function sample_data = timeOffsetPP(sample_data, qcLevel, auto)
       timezoneLabels = [];
       offsetFields   = [];
       
-      for k = 1:length(sample_data)
+      for k = 1:nSample
           
           setCheckboxes(k) = uicontrol(...
               'Style',    'checkbox',...
@@ -143,12 +128,15 @@ function sample_data = timeOffsetPP(sample_data, qcLevel, auto)
       set(timezoneLabels, 'Units', 'normalized');
       set(offsetFields,   'Units', 'normalized');
       
-      set(f,             'Position', [0.2 0.35 0.6 0.5]);
-      set(cancelButton,  'Position', [0.0 0.0  0.5 0.1]);
-      set(confirmButton, 'Position', [0.5 0.0  0.5 0.1]);
+      set(f,             'Position', [0.2 0.35 0.6 0.0222 * (nSample +1 )]); % need to include 1 extra space for the row of buttons
       
-      rowHeight = 0.9 / length(sample_data);
-      for k = 1:length(sample_data)
+      rowHeight = 1 / (nSample + 1);
+      
+      set(cancelButton,  'Position', [0.0 0.0  0.5 rowHeight]);
+      set(confirmButton, 'Position', [0.5 0.0  0.5 rowHeight]);
+      
+      
+      for k = 1:nSample
           
           rowStart = 1.0 - k * rowHeight;
           
@@ -179,7 +167,7 @@ function sample_data = timeOffsetPP(sample_data, qcLevel, auto)
   end
   
   % apply the time offset to the selected datasets
-  for k = 1:length(sample_data)
+  for k = 1:nSample
       
       % this set has been deselected
       if ~sets(k), continue; end
@@ -196,6 +184,9 @@ function sample_data = timeOffsetPP(sample_data, qcLevel, auto)
       
       % no time dimension nor variable in this dataset
       if timeIdx == 0, continue; end
+      
+      % no offset to be applied on this dataset
+      if offsets(k) == 0, continue; end
       
       signOffset = sign(offsets(k));
       if signOffset >= 0

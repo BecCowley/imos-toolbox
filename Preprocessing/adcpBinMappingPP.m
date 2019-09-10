@@ -21,33 +21,21 @@ function sample_data = adcpBinMappingPP( sample_data, qcLevel, auto )
 %
 
 %
-% Copyright (c) 2009, eMarine Information Infrastructure (eMII) and Integrated 
+% Copyright (C) 2017, Australian Ocean Data Network (AODN) and Integrated 
 % Marine Observing System (IMOS).
-% All rights reserved.
-% 
-% Redistribution and use in source and binary forms, with or without 
-% modification, are permitted provided that the following conditions are met:
-% 
-%     * Redistributions of source code must retain the above copyright notice, 
-%       this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright 
-%       notice, this list of conditions and the following disclaimer in the 
-%       documentation and/or other materials provided with the distribution.
-%     * Neither the name of the eMII/IMOS nor the names of its contributors 
-%       may be used to endorse or promote products derived from this software 
-%       without specific prior written permission.
-% 
-% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-% POSSIBILITY OF SUCH DAMAGE.
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation version 3 of the License.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program.
+% If not, see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 %
 narginchk(2, 3);
 
@@ -69,20 +57,27 @@ for k = 1:length(sample_data)
     if strcmpi(sample_data{k}.meta.instrument_make, 'Nortek'), isNortek = true; end
     if ~isRDI && ~isNortek, continue; end
     
-    heightAboveSensorIdx = getVar(sample_data{k}.dimensions, 'HEIGHT_ABOVE_SENSOR');
+    % do not process if Nortek with more than 3 beams
+    absic4Idx = getVar(sample_data{k}.variables, 'ABSIC4');
+    if absic4Idx && isNortek, continue; end
+  
+    % do not process if dist_along_beams, pitch or roll are missing from dataset
     distAlongBeamsIdx = getVar(sample_data{k}.dimensions, 'DIST_ALONG_BEAMS');
     pitchIdx = getVar(sample_data{k}.variables, 'PITCH');
     rollIdx  = getVar(sample_data{k}.variables, 'ROLL');
+    if ~distAlongBeamsIdx || ~pitchIdx || ~rollIdx, continue; end
   
-    % do not process if pitch, roll, and dist_along_beams not present in data set
-    if ~(distAlongBeamsIdx && pitchIdx && rollIdx), continue; end
-  
-    % do not process if velocity data not vertically bin-mapped and there 
-    % is no velocity data in beam coordinates (useless)
+    % do not process if ENU velocity data not vertically bin-mapped and there 
+    % is no beam velocity data (ENU velocity is not going to be bin-mapped later so useless)
+    heightAboveSensorIdx = getVar(sample_data{k}.dimensions, 'HEIGHT_ABOVE_SENSOR');
     ucurIdx  = getVar(sample_data{k}.variables, 'UCUR');
     if ~ucurIdx, ucurIdx  = getVar(sample_data{k}.variables, 'UCUR_MAG'); end
     vel1Idx  = getVar(sample_data{k}.variables, 'VEL1');
-    if any(sample_data{k}.variables{ucurIdx}.dimensions == distAlongBeamsIdx) && ~vel1Idx, continue; end
+    if ucurIdx % in the case of datasets originally collected in beam coordinates there is no UCUR
+        if ~any(sample_data{k}.variables{ucurIdx}.dimensions == heightAboveSensorIdx) && ~vel1Idx
+            continue;
+        end
+    end
     
     % We apply tilt corrections to project DIST_ALONG_BEAMS onto the vertical
     % axis HEIGHT_ABOVE_SENSOR.
@@ -102,7 +97,7 @@ for k = 1:length(sample_data)
     % while beams 2 and 3 get further away. When roll is positive beam 3 is
     % closer to the surface while beam 2 gets further away.
     %
-    distAlongBeams = sample_data{k}.dimensions{distAlongBeamsIdx}.data;
+    distAlongBeams = sample_data{k}.dimensions{distAlongBeamsIdx}.data';
     pitch = sample_data{k}.variables{pitchIdx}.data*pi/180;
     roll  = sample_data{k}.variables{rollIdx}.data*pi/180;
     
@@ -111,42 +106,43 @@ for k = 1:length(sample_data)
     
     if isRDI
         % RDI 4 beams
-        nonMappedHeightAboveSensorBeam1 = (cos(beamAngle + roll)/cos(beamAngle)) * distAlongBeams';
+        nonMappedHeightAboveSensorBeam1 = (cos(beamAngle + roll)/cos(beamAngle)) * distAlongBeams;
         nonMappedHeightAboveSensorBeam1 = repmat(cos(pitch), 1, nBins) .* nonMappedHeightAboveSensorBeam1;
         
-        nonMappedHeightAboveSensorBeam2 = (cos(beamAngle - roll)/cos(beamAngle)) * distAlongBeams';
+        nonMappedHeightAboveSensorBeam2 = (cos(beamAngle - roll)/cos(beamAngle)) * distAlongBeams;
         nonMappedHeightAboveSensorBeam2 = repmat(cos(pitch), 1, nBins) .* nonMappedHeightAboveSensorBeam2;
         
-        nonMappedHeightAboveSensorBeam3 = (cos(beamAngle - pitch)/cos(beamAngle)) * distAlongBeams';
+        nonMappedHeightAboveSensorBeam3 = (cos(beamAngle - pitch)/cos(beamAngle)) * distAlongBeams;
         nonMappedHeightAboveSensorBeam3 = repmat(cos(roll), 1, nBins) .* nonMappedHeightAboveSensorBeam3;
         
-        nonMappedHeightAboveSensorBeam4 = (cos(beamAngle + pitch)/cos(beamAngle)) * distAlongBeams';
+        nonMappedHeightAboveSensorBeam4 = (cos(beamAngle + pitch)/cos(beamAngle)) * distAlongBeams;
         nonMappedHeightAboveSensorBeam4 = repmat(cos(roll), 1, nBins) .* nonMappedHeightAboveSensorBeam4;
     else
         % Nortek 3 beams
-        nonMappedHeightAboveSensorBeam1 = (cos(beamAngle - pitch)/cos(beamAngle)) * distAlongBeams';
+        nonMappedHeightAboveSensorBeam1 = (cos(beamAngle - pitch)/cos(beamAngle)) * distAlongBeams;
         nonMappedHeightAboveSensorBeam1 = repmat(cos(roll), 1, nBins) .* nonMappedHeightAboveSensorBeam1;
         
         beamAngleX = atan(tan(beamAngle) * cos(60*pi/180)); % beams 2 and 3 angle projected on the X axis
         beamAngleY = atan(tan(beamAngle) * cos(30*pi/180)); % beams 2 and 3 angle projected on the Y axis
         
-        nonMappedHeightAboveSensorBeam2 = (cos(beamAngleX + pitch)/cos(beamAngleX)) * distAlongBeams';
+        nonMappedHeightAboveSensorBeam2 = (cos(beamAngleX + pitch)/cos(beamAngleX)) * distAlongBeams;
         nonMappedHeightAboveSensorBeam2 = repmat(cos(beamAngleY + roll)/cos(beamAngleY), 1, nBins) .* nonMappedHeightAboveSensorBeam2;
         
-        nonMappedHeightAboveSensorBeam3 = (cos(beamAngleX + pitch)/cos(beamAngleX)) * distAlongBeams';
+        nonMappedHeightAboveSensorBeam3 = (cos(beamAngleX + pitch)/cos(beamAngleX)) * distAlongBeams;
         nonMappedHeightAboveSensorBeam3 = repmat(cos(beamAngleY - roll)/cos(beamAngleY), 1, nBins) .* nonMappedHeightAboveSensorBeam3;
     end
     
     nSamples = length(pitch);
-    mappedHeightAboveSensor = repmat(distAlongBeams', nSamples, 1);
+    mappedHeightAboveSensor = repmat(distAlongBeams, nSamples, 1);
   
     % we can now interpolate mapped values per bin when needed for each
     % impacted parameter
     isBinMapApplied = false;
     for j=1:length(sample_data{k}.variables)
-        if any(sample_data{k}.variables{j}.dimensions == distAlongBeamsIdx) ... % only process variables that are function of DIST_ALONG_BEAMS
+        if any(sample_data{k}.variables{j}.dimensions == distAlongBeamsIdx) % only process variables that are function of DIST_ALONG_BEAMS
             
-            beamNumber = sample_data{k}.variables{j}.name(end);
+            % only process variables that are in beam coordinates
+            beamNumber = sample_data{k}.variables{j}.long_name(end);
             switch beamNumber
                 case '1'
                     nonMappedHeightAboveSensor = nonMappedHeightAboveSensorBeam1;
@@ -176,23 +172,27 @@ for k = 1:length(sample_data)
                 mappedData(i,1) = nonMappedData(i,1);
             end
             
-            binMappingComment = ['adcpBinMappingPP.m: data in beam coordinates originally referenced to DISTANCE_ALONG_BEAMS ' ...
+            binMappingComment = ['adcpBinMappingPP.m: data in beam coordinates originally referenced to DIST_ALONG_BEAMS ' ...
                 'has been vertically bin-mapped to HEIGHT_ABOVE_SENSOR using tilt information.'];
             
-            % we create the HEIGHT_ABOVE_SENSOR dimension if needed
             if ~heightAboveSensorIdx
-                sample_data{k}.dimensions{end+1}            = sample_data{k}.dimensions{distAlongBeamsIdx};
-                sample_data{k}.dimensions{end}.name         = 'HEIGHT_ABOVE_SENSOR';
-                sample_data{k}.dimensions{end}.long_name    = 'height_above_sensor';
-                sample_data{k}.dimensions{end}.axis         = 'Z';
-                sample_data{k}.dimensions{end}.positive     = 'up';
-                sample_data{k}.dimensions{end}.comment      = ['Data has been vertically bin-mapped using tilt information so that the cells ' ...
+                % we create the HEIGHT_ABOVE_SENSOR dimension if needed
+                sample_data{k}.dimensions{end+1}             = sample_data{k}.dimensions{distAlongBeamsIdx};
+                
+                % attributes units, reference_datum, valid_min/max and _FillValue are the same as with DIST_ALONG_BEAMS, the rest differs
+                sample_data{k}.dimensions{end}.name            = 'HEIGHT_ABOVE_SENSOR';
+                sample_data{k}.dimensions{end}.long_name       = 'height_above_sensor';
+                sample_data{k}.dimensions{end}.standard_name   = imosParameters('HEIGHT_ABOVE_SENSOR', 'standard_name');
+                sample_data{k}.dimensions{end}.axis            = 'Z';
+                sample_data{k}.dimensions{end}.positive        = imosParameters('HEIGHT_ABOVE_SENSOR', 'positive');
+                sample_data{k}.dimensions{end}.comment         = ['Values correspond to the distance between the instrument''s transducers and the centre of each cells. ' ...
+                    'Data has been vertically bin-mapped using tilt information so that the cells ' ...
                     'have consistant heights above sensor in time.'];
                 
                 heightAboveSensorIdx = getVar(sample_data{k}.dimensions, 'HEIGHT_ABOVE_SENSOR');
             end
             
-            % we re-assign the parameter to this dimension
+            % we re-assign the parameter to the HEIGHT_ABOVE_SENSOR dimension
             sample_data{k}.variables{j}.dimensions(sample_data{k}.variables{j}.dimensions == distAlongBeamsIdx) = heightAboveSensorIdx;
                 
             sample_data{k}.variables{j}.data = mappedData;
@@ -209,6 +209,29 @@ for k = 1:length(sample_data)
     end
     
     if isBinMapApplied
+        % let's look for remaining variables assigned to DIST_ALONG_BEAMS,
+        % if none we can remove this dimension (RDI for example)
+        isDistAlongBeamsUsed = false;
+        for j=1:length(sample_data{k}.variables)
+            if any(sample_data{k}.variables{j}.dimensions == distAlongBeamsIdx)
+                isDistAlongBeamsUsed = true;
+                break;
+            end
+        end
+        if ~isDistAlongBeamsUsed
+            if length(sample_data{k}.dimensions) > distAlongBeamsIdx
+                for j=1:length(sample_data{k}.variables)
+                    dimToUpdate = sample_data{k}.variables{j}.dimensions > distAlongBeamsIdx;
+                    if any(dimToUpdate)
+                        sample_data{k}.variables{j}.dimensions(dimToUpdate) = sample_data{k}.variables{j}.dimensions(dimToUpdate) - 1;
+                    end
+                end
+            end
+            sample_data{k}.dimensions(distAlongBeamsIdx) = [];
+            
+            binMappingComment = [binMappingComment ' DIST_ALONG_BEAMS is not used by any variable left and has been removed.'];
+        end
+        
         history = sample_data{k}.history;
         if isempty(history)
             sample_data{k}.history = sprintf('%s - %s', datestr(now_utc, readProperty('exportNetCDF.dateFormat')), binMappingComment);

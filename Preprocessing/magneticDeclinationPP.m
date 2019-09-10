@@ -22,33 +22,21 @@ function sample_data = magneticDeclinationPP( sample_data, qcLevel, auto )
 %
 
 %
-% Copyright (c) 2009, eMarine Information Infrastructure (eMII) and Integrated 
+% Copyright (C) 2017, Australian Ocean Data Network (AODN) and Integrated 
 % Marine Observing System (IMOS).
-% All rights reserved.
-% 
-% Redistribution and use in source and binary forms, with or without 
-% modification, are permitted provided that the following conditions are met:
-% 
-%     * Redistributions of source code must retain the above copyright notice, 
-%       this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright 
-%       notice, this list of conditions and the following disclaimer in the 
-%       documentation and/or other materials provided with the distribution.
-%     * Neither the name of the eMII/IMOS nor the names of its contributors 
-%       may be used to endorse or promote products derived from this software 
-%       without specific prior written permission.
-% 
-% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-% POSSIBILITY OF SUCH DAMAGE.
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation version 3 of the License.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program.
+% If not, see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 %
   narginchk(2, 3);
 
@@ -86,7 +74,9 @@ function sample_data = magneticDeclinationPP( sample_data, qcLevel, auto )
     end
     
     if any(iMagDataSet == i)
-        if isempty(sample_data{i}.instrument_nominal_depth)
+        if isempty(sample_data{i}.instrument_nominal_depth) || ...
+                isempty(sample_data{i}.geospatial_lat_min) || ...
+                isempty(sample_data{i}.geospatial_lon_min)
             disp(['Warning : no instrument_nominal_depth/geospatial_lat_min/geospatial_lon_min documented for magneticDeclinationPP to be applied on ' sample_data{i}.toolbox_input_file]);
             prompt = {'Depth:', 'Latitude (South -ve)', 'Longitude (West -ve)'};
             dlg_title = 'Coords';
@@ -156,13 +146,13 @@ function sample_data = magneticDeclinationPP( sample_data, qcLevel, auto )
                       % we make sure values fall within [0; 360[
                       data = make0To360(data);
                       
-                  case 'VCUR_MAG' % magnetic_northward_sea_water_velocity (m s-1)
+                  case 'VCUR_MAG' % northward_sea_water_velocity (m s-1) referenced to magnetic north
                       data = vcur_mag*cos(geomagDeclin(i) * pi/180) - ucur_mag*sin(geomagDeclin(i) * pi/180);
                       
-                  case 'UCUR_MAG' % magnetic_eastward_sea_water_velocity (m s-1)
+                  case 'UCUR_MAG' % eastward_sea_water_velocity (m s-1) referenced to magnetic north
                       data = vcur_mag*sin(geomagDeclin(i) * pi/180) + ucur_mag*cos(geomagDeclin(i) * pi/180);
                       
-                  case 'SSWV_MAG' % sea_surface_wave_magnetic_directional_variance_spectral_density (m2 s deg-1)
+                  case 'SSWV_MAG' % sea_surface_wave_directional_variance_spectral_density (m2 s deg-1) referenced to magnetic north
                       % data stays "the same" but we modify the dimension
                       % from DIR_MAG to DIR
                       iDim = sample_data{iMagDataSet(i)}.variables{j}.dimensions(end);
@@ -222,9 +212,7 @@ function sample_data = magneticDeclinationPP( sample_data, qcLevel, auto )
               % we apply the modifications to the data and metadata
               paramName = sample_data{iMagDataSet(i)}.variables{j}.name(1:end-4);
               sample_data{iMagDataSet(i)}.variables{j}.name = paramName;
-              sample_data{iMagDataSet(i)}.variables{j}.standard_name = '';
-              sample_data{iMagDataSet(i)}.variables{j}.long_name = '';
-              sample_data{iMagDataSet(i)}.variables{j}.units = '';
+              sample_data{iMagDataSet(i)}.variables{j}.reference_datum = ''; % will be updated by makeNetCDFCompliant
               sample_data{iMagDataSet(i)}.variables{j}.data = data;
               sample_data{iMagDataSet(i)}.variables{j}.magnetic_declination = geomagDeclin(i);
               sample_data{iMagDataSet(i)}.variables{j}.compass_correction_applied = geomagDeclin(i);

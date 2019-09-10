@@ -18,8 +18,7 @@ toolbox.ddb.connection = /Volumes/DWmoorings1/Solander_2015/2014_recoveries/Moor
 toolbox.ddb.user = cow074
 toolbox.ddb.password = imosHV00112j
 
-% toolbox execution mode. Values can be 'timeSeries' and 'profile'. 
-% If no value is set then default mode is 'timeSeries'
+% toolbox execution mode. Values can be 'timeSeries' or 'profile'. 
 toolbox.mode = timeSeries
 
 % directory which contains netcdf templates
@@ -48,8 +47,17 @@ autoQCManager.autoQCChain.profile = imosImpossibleDateQC imosImpossibleLocationS
 preprocessManager.preprocessPrompt = true
 
 % default set of preprocessing routines
+<<<<<<< HEAD
 preprocessManager.preprocessChain.timeSeries = timeDriftPP salinityPP magneticDeclinationPP depthPP pressureRelPP
 preprocessManager.preprocessChain.profile = depthPP salinityPP
+=======
+preprocessManager.preprocessDefaultChain.timeSeries = depthPP salinityPP oxygenPP absiDecibelBasicPP adcpNortekVelocityEnu2BeamPP adcpBinMappingPP adcpNortekVelocityBeam2EnuPP magneticDeclinationPP velocityMagDirPP
+preprocessManager.preprocessDefaultChain.profile = depthPP salinityPP oxygenPP
+
+% last selected set of preprocessing routines
+preprocessManager.preprocessChain.timeSeries = depthPP salinityPP oxygenPP absiDecibelBasicPP adcpNortekVelocityEnu2BeamPP adcpBinMappingPP adcpNortekVelocityBeam2EnuPP magneticDeclinationPP velocityMagDirPP
+preprocessManager.preprocessChain.profile = depthPP salinityPP oxygenPP
+>>>>>>> 5bf17624176164bcadf24bc06fb9352fd7ad3fe8
 
 % file status dialog formatting styles
 % can be one of 'bold', 'normal', 'italic', or an HTML colour (e.g. 'red', 
@@ -86,3 +94,12 @@ saveGraph.imgType   = png
 % visual QC plots export properties
 visualQC.export = true
 visualQC.fastScatter = true
+
+% default nonspecialized scalar colormap and number of colour steps
+% jet | parula | viridis
+visualQC.defaultColormap = parula
+visualQC.ncolors = 64
+
+% simple zbuffering of markers if using fallback fastScatterMesh plot (fastScatter = false)
+% 'ascending', 'descending', 'triangle', 'vee', 'flat', 'parabolic', 'hamming', 'hann'
+visualQC.zbuffer = triangle

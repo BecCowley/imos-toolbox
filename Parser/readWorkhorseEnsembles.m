@@ -42,33 +42,21 @@ function ensembles = readWorkhorseEnsembles( filename )
 %               Guillaume Galibert <guillaume.galibert@utas.edu.au>
 
 %
-% Copyright (c) 2009, eMarine Information Infrastructure (eMII) and Integrated
+% Copyright (C) 2017, Australian Ocean Data Network (AODN) and Integrated 
 % Marine Observing System (IMOS).
-% All rights reserved.
 %
-% Redistribution and use in source and binary forms, with or without
-% modification, are permitted provided that the following conditions are met:
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation version 3 of the License.
 %
-%     * Redistributions of source code must retain the above copyright notice,
-%       this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright
-%       notice, this list of conditions and the following disclaimer in the
-%       documentation and/or other materials provided with the distribution.
-%     * Neither the name of the eMII/IMOS nor the names of its contributors
-%       may be used to endorse or promote products derived from this software
-%       without specific prior written permission.
-%
-% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-% POSSIBILITY OF SUCH DAMAGE.
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program.
+% If not, see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 %
 
 % ensure that there is exactly one argument,
@@ -218,7 +206,6 @@ if any(idodgy)
         igood = (nBytes == nBytes0(1));
         
         idx     = idx(igood);
-        nBytes  = nBytes(igood);
     else
         error('This file looks corrupted. Try open it with WinADCP and save it again.');
     end
@@ -344,7 +331,7 @@ dsub(ibad) = nan;
 
 end
 
-function [sect len] = parseFixedLeader(data, idx, cpuEndianness)
+function [sect, len] = parseFixedLeader(data, idx, cpuEndianness)
 %PARSEFIXEDLEADER Parses a fixed leader section from an ADCP ensemble.
 %
 % Inputs:
@@ -451,7 +438,7 @@ function [sect len] = parseFixedLeader(data, idx, cpuEndianness)
   end
 end
 
-function [sect len] = parseVariableLeader( data, idx, cpuEndianness )
+function [sect, len] = parseVariableLeader( data, idx, cpuEndianness )
 %PARSEVARIABLELEADER Parses a variable leader section from an ADCP ensemble.
 %
 % Inputs:
@@ -555,7 +542,7 @@ function [sect len] = parseVariableLeader( data, idx, cpuEndianness )
   sect.y2kHundredth           = double(data(idx+64));
 end
 
-function [sect len] = parseVelocity( data, numCells, idx, cpuEndianness )
+function [sect, len] = parseVelocity( data, numCells, idx, cpuEndianness )
 %PARSEVELOCITY Parses a velocity section from an ADCP ensemble.
 %
 % Inputs:
@@ -588,7 +575,7 @@ function [sect len] = parseVelocity( data, numCells, idx, cpuEndianness )
   
 end
 
-function [sect len] = parseX( data, numCells, name, idx, cpuEndianness )
+function [sect, len] = parseX( data, numCells, name, idx, cpuEndianness )
 %PARSEX Parses one of the correlation magnitude, echo intensity or percent 
 % good sections from an ADCP ensemble. They all have the same format. 
 %
@@ -624,7 +611,7 @@ sect.field4 = fields(:, ibeam+3);
     
 end
 
-function [sect length] = parseBottomTrack( data, idx, cpuEndianness )
+function [sect, length] = parseBottomTrack( data, idx, cpuEndianness )
 %PARSEBOTTOMTRACK Parses a bottom track data section from an ADCP
 % ensemble.
 %

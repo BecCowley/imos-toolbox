@@ -12,8 +12,6 @@ function sample_data = timeDriftPP(sample_data, qcLevel, auto)
 % necessarily have been captured in UTC time, so a correction must be made
 % before the data can be considered to be in an IMOS compatible format.
 %
-% Default time offset values for timezone codes are stored in a plain text
-% file, timeDriftPP.txt.
 %
 % Inputs:
 %   sample_data - cell array of structs, the data sets to which time
@@ -24,161 +22,159 @@ function sample_data = timeDriftPP(sample_data, qcLevel, auto)
 % Outputs:
 %   sample_data - same as input, with time correction applied.
 %
-
 %
-% Author:       Paul McCarthy <paul.mccarthy@csiro.au>
-% Contributor:  Brad Morris <b.morris@unsw.edu.au>
-%               Guillaume Galibert <guillaume.galibert@utas.edu.au>
-%               Rebecca Cowley <rebecca.cowley@csiro.au>
+% Author:       Rebecca Cowley <rebecca.cowley@csiro.au>
+% Contributor:  Guillaume Galibert <guillaume.galibert@utas.edu.au>
 %
 
 %
-% Copyright (c) 2009, eMarine Information Infrastructure (eMII) and Integrated
+% Copyright (C) 2017, Australian Ocean Data Network (AODN) and Integrated 
 % Marine Observing System (IMOS).
-% All rights reserved.
 %
-% Redistribution and use in source and binary forms, with or without
-% modification, are permitted provided that the following conditions are met:
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation version 3 of the License.
 %
-%     * Redistributions of source code must retain the above copyright notice,
-%       this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright
-%       notice, this list of conditions and the following disclaimer in the
-%       documentation and/or other materials provided with the distribution.
-%     * Neither the name of the eMII/IMOS nor the names of its contributors
-%       may be used to endorse or promote products derived from this software
-%       without specific prior written permission.
-%
-% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-% POSSIBILITY OF SUCH DAMAGE.
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program.
+% If not, see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 %
 
-error(nargchk(2,3,nargin));
+narginchk(2,3);
 
 if ~iscell(sample_data), error('sample_data must be a cell array'); end
 if isempty(sample_data), return;                                    end
-% if this is the second time through (ie for applying autoQC PP
-% routines), then return. sample_data already contains the corrections
-% and they are therefore carried through.
-if auto, return; end
+
+% no modification of data is performed on the raw FV00 dataset except
+% local time to UTC conversion
+if strcmpi(qcLevel, 'raw'), return; end
 
 % auto logical in input to enable running under batch processing
 if nargin<3, auto=false; end
 
-descs     = {};
-startOffsets   = zeros(length(sample_data),1);
-endOffsets = startOffsets;
-sets      = ones(length(sample_data), 1);
+descs           = {};
+nSample         = length(sample_data);
+startOffsets    = zeros(nSample, 1);
+endOffsets      = startOffsets;
+sets            = ones(nSample, 1);
 
 % create descriptions, and get timezones/offsets for each data set
-for k = 1:length(sample_data)
+for k = 1:nSample
     
     descs{k} = genSampleDataDesc(sample_data{k});
-    if isfield(sample_data{k}.meta.deployment,'StartOffset')
-        %check to see if the offsets are available already from the ddb
-        startOffsets(k) = str2num(sample_data{k}.meta.deployment.StartOffset);
+    
+    %check to see if the offsets are available already from the ddb
+    if isfield(sample_data{k}.meta, 'deployment')
+        if isfield(sample_data{k}.meta.deployment, 'StartOffset')
+            startOffsets(k) = sample_data{k}.meta.deployment.StartOffset;
+        end
+        if isfield(sample_data{k}.meta.deployment, 'EndOffset')
+            endOffsets(k) = sample_data{k}.meta.deployment.EndOffset;
+        end
+        if all(isfield(sample_data{k}.meta.deployment, {'TimeDriftInstrument', 'TimeDriftGPS'}))
+            if ~isempty(sample_data{k}.meta.deployment.TimeDriftInstrument) && ~isempty(sample_data{k}.meta.deployment.TimeDriftGPS)
+                endOffsets(k) = (sample_data{k}.meta.deployment.TimeDriftInstrument - sample_data{k}.meta.deployment.TimeDriftGPS)*3600*24;
+            end
+        end
     end
-    if isfield(sample_data{k}.meta.deployment,'EndOffset')
-        endOffsets(k) = str2num(sample_data{k}.meta.deployment.EndOffset);
+end
+
+if ~auto
+    f = figure(...
+        'Name',        'Time start and end drift calculations in seconds',...
+        'Visible',     'off',...
+        'MenuBar'  ,   'none',...
+        'Resize',      'off',...
+        'WindowStyle', 'Modal',...
+        'NumberTitle', 'off');
+    
+    cancelButton  = uicontrol('Style',  'pushbutton', 'String', 'Cancel');
+    confirmButton = uicontrol('Style',  'pushbutton', 'String', 'Ok');
+    
+    setCheckboxes  = [];
+    startOffsetFields   = [];
+    endOffsetFields = [];
+    
+    for k = 1:nSample
+        
+        setCheckboxes(k) = uicontrol(...
+            'Style',    'checkbox',...
+            'String',   descs{k},...
+            'Value',    1, ...
+            'UserData', k);
+        
+        startOffsetFields(k) = uicontrol(...
+            'Style',    'edit',...
+            'UserData', k, ...
+            'String',   num2str(startOffsets(k)));
+        
+        endOffsetFields(k) = uicontrol(...
+            'Style',    'edit',...
+            'UserData', k, ...
+            'String',   num2str(endOffsets(k)));
+        
     end
+    
+    % set all widgets to normalized for positioning
+    set(f,              'Units', 'normalized');
+    set(cancelButton,   'Units', 'normalized');
+    set(confirmButton,  'Units', 'normalized');
+    set(setCheckboxes,  'Units', 'normalized');
+    set(startOffsetFields,   'Units', 'normalized');
+    set(endOffsetFields,   'Units', 'normalized');
+    
+    set(f,             'Position', [0.2 0.35 0.6 0.0222 * (nSample + 1)]); % need to include 1 extra space for the row of buttons
+    
+    rowHeight = 1 / (nSample + 1);
+    
+    set(cancelButton,  'Position', [0.0 0.0  0.5 rowHeight]);
+    set(confirmButton, 'Position', [0.5 0.0  0.5 rowHeight]);
+    
+    for k = 1:nSample
+        
+        rowStart = 1.0 - k * rowHeight;
+        
+        set(setCheckboxes (k), 'Position', [0.0 rowStart 0.6 rowHeight]);
+        set(startOffsetFields  (k), 'Position', [0.6 rowStart 0.2 rowHeight]);
+        set(endOffsetFields  (k), 'Position', [0.8 rowStart 0.2 rowHeight]);
+    end
+    
+    % set back to pixels
+    set(f,              'Units', 'normalized');
+    set(cancelButton,   'Units', 'normalized');
+    set(confirmButton,  'Units', 'normalized');
+    set(setCheckboxes,  'Units', 'normalized');
+    set(startOffsetFields,   'Units', 'normalized');
+    set(endOffsetFields,   'Units', 'normalized');
+    
+    % set widget callbacks
+    set(f,             'CloseRequestFcn',   @cancelCallback);
+    set(f,             'WindowKeyPressFcn', @keyPressCallback);
+    set(setCheckboxes, 'Callback',          @checkboxCallback);
+    set(startOffsetFields,  'Callback',     @startoffsetFieldCallback);
+    set(endOffsetFields,  'Callback',       @endoffsetFieldCallback);
+    set(cancelButton,  'Callback',          @cancelCallback);
+    set(confirmButton, 'Callback',          @confirmCallback);
+    
+    set(f, 'Visible', 'on');
+    
+    uiwait(f);
 end
-
-f = figure(...
-    'Name',        'Time drift calculations',...
-    'Visible',     'off',...
-    'MenuBar'  ,   'none',...
-    'Resize',      'off',...
-    'WindowStyle', 'Modal',...
-    'NumberTitle', 'off');
-
-cancelButton  = uicontrol('Style',  'pushbutton', 'String', 'Cancel');
-confirmButton = uicontrol('Style',  'pushbutton', 'String', 'Ok');
-
-setCheckboxes  = [];
-startOffsetFields   = [];
-endOffsetFields = [];
-
-for k = 1:length(sample_data)
-    
-    setCheckboxes(k) = uicontrol(...
-        'Style',    'checkbox',...
-        'String',   descs{k},...
-        'Value',    1, ...
-        'UserData', k);
-    
-    startOffsetFields(k) = uicontrol(...
-        'Style',    'edit',...
-        'UserData', k, ...
-        'String',   num2str(startOffsets(k)));
-    
-    endOffsetFields(k) = uicontrol(...
-        'Style',    'edit',...
-        'UserData', k, ...
-        'String',   num2str(endOffsets(k)));
-    
-end
-
-% set all widgets to normalized for positioning
-set(f,              'Units', 'normalized');
-set(cancelButton,   'Units', 'normalized');
-set(confirmButton,  'Units', 'normalized');
-set(setCheckboxes,  'Units', 'normalized');
-set(startOffsetFields,   'Units', 'normalized');
-set(endOffsetFields,   'Units', 'normalized');
-
-set(f,             'Position', [0.2 0.35 0.6 0.0222*length(sample_data)]);
-set(cancelButton,  'Position', [0.0 0.0  0.5 0.1]);
-set(confirmButton, 'Position', [0.5 0.0  0.5 0.1]);
-
-rowHeight = 0.9 / length(sample_data);
-for k = 1:length(sample_data)
-    
-    rowStart = 1.0 - k * rowHeight;
-    
-    set(setCheckboxes (k), 'Position', [0.0 rowStart 0.6 rowHeight]);
-    set(startOffsetFields  (k), 'Position', [0.6 rowStart 0.2 rowHeight]);
-    set(endOffsetFields  (k), 'Position', [0.8 rowStart 0.2 rowHeight]);
-end
-
-% set back to pixels
-set(f,              'Units', 'normalized');
-set(cancelButton,   'Units', 'normalized');
-set(confirmButton,  'Units', 'normalized');
-set(setCheckboxes,  'Units', 'normalized');
-set(startOffsetFields,   'Units', 'normalized');
-set(endOffsetFields,   'Units', 'normalized');
-
-% set widget callbacks
-set(f,             'CloseRequestFcn',   @cancelCallback);
-set(f,             'WindowKeyPressFcn', @keyPressCallback);
-set(setCheckboxes, 'Callback',          @checkboxCallback);
-set(startOffsetFields,  'Callback',          @startoffsetFieldCallback);
-set(endOffsetFields,  'Callback',          @endoffsetFieldCallback);
-set(cancelButton,  'Callback',          @cancelCallback);
-set(confirmButton, 'Callback',          @confirmCallback);
-
-set(f, 'Visible', 'on');
-
-uiwait(f);
 
 % calculate the drift and apply to the selected datasets
-for k = 1:length(sample_data)
-    
+for k = 1:nSample
+   
     % this set has been deselected
     if ~sets(k), continue; end
     
     %check for zero values in both fields
     if startOffsets(k) == 0 && endOffsets(k) == 0
-        continue
+        continue;
     end
     
     % look time through dimensions
@@ -194,15 +190,8 @@ for k = 1:length(sample_data)
     % no time dimension nor variable in this dataset
     if timeIdx == 0, continue; end
     
-    signOffset = sign(startOffsets(k));
-    if signOffset >= 0
-        signOffset = '+';
-    else
-        signOffset = '-';
-    end
-    
     timeDriftComment = ['timeDriftPP: TIME values and time_coverage_end global attributes have been have been '...
-        'linearly adjusted for a drift of: ' signOffset num2str(abs(endOffsets(k) - startOffsets(k))) ' seconds ' ...
+        'linearly adjusted for an offset of: ' num2str(startOffsets(k)) ' seconds and a drift of: ' num2str(endOffsets(k) - startOffsets(k)) ' seconds ' ...
         'across the deployment.'];
     
     % apply the drift correction
@@ -271,7 +260,7 @@ end
         else    val = 'off';
         end
         
-        set(startOffsetFields(idx), 'Enable', val);
+        set([startOffsetFields(idx), endOffsetFields(idx)], 'Visible', val);
         
     end
 
@@ -312,21 +301,21 @@ end
     end
 
     function newtime = timedrift_corr(time,offset_s,offset_e)
-        %remove linear drift of time (in days) from any instrument.
-        %the drift is calculated using the start offset (offset_s in seconds) and the
+        % remove linear drift of time (in days) from any instrument.
+        % the drift is calculated using the start offset (offset_s in seconds) and the
         % end offset (offset_e in seconds).
-        %Bec Cowley, April 2014
         
-        %         change the offset times to days:
-        offset_e = offset_e/60/60/24;
-        offset_s = offset_s/60/60/24;
+        % calculate the offset times in days:
+        offset_days_e = offset_e/60/60/24;
+        offset_days_s = offset_s/60/60/24;
         
-        %make an array of time corrections using the offsets:
-        tarray = (offset_s:(offset_e-offset_s)/(length(time)-1):offset_e)';
-        if isempty(tarray)
-            newtime = [];
+        if offset_e == offset_s % then just remove the start time
+            newtime = time - offset_days_s;
         else
+            % make an array of time corrections using the offsets:
+            tarray = (offset_days_s:(offset_days_e-offset_days_s)/(length(time)-1):offset_days_e)';
             newtime = time - tarray;
         end
     end
 end
+

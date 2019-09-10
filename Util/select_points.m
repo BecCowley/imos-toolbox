@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 function [x,y] = select_points
 %function [x,y] = select_points
 % Uses rbbox to select points in the timeseries chart for flagging.
 % Returns [x,y] - index of rectange corners in figure units
 
+=======
+function [x,y] = select_points(hAx)
+%function [x,y] = select_points
+% Uses rbbox to select points in the timeseries chart for flagging.
+% Returns [x,y] - index of rectangle corners in figure units
+axes(hAx);
+>>>>>>> 5bf17624176164bcadf24bc06fb9352fd7ad3fe8
 k = waitforbuttonpress;
 point1 = get(gca,'CurrentPoint');    % button down detected
 finalRect = rbbox;                   % return figure units

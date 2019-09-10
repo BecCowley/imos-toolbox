@@ -19,33 +19,21 @@ function sample_data = adcpNortekVelocityBeam2EnuPP( sample_data, qcLevel, auto 
 %
 
 %
-% Copyright (c) 2009, eMarine Information Infrastructure (eMII) and Integrated 
+% Copyright (C) 2017, Australian Ocean Data Network (AODN) and Integrated 
 % Marine Observing System (IMOS).
-% All rights reserved.
-% 
-% Redistribution and use in source and binary forms, with or without 
-% modification, are permitted provided that the following conditions are met:
-% 
-%     * Redistributions of source code must retain the above copyright notice, 
-%       this list of conditions and the following disclaimer.
-%     * Redistributions in binary form must reproduce the above copyright 
-%       notice, this list of conditions and the following disclaimer in the 
-%       documentation and/or other materials provided with the distribution.
-%     * Neither the name of the eMII/IMOS nor the names of its contributors 
-%       may be used to endorse or promote products derived from this software 
-%       without specific prior written permission.
-% 
-% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-% AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-% IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-% ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-% LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-% CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-% SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-% INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-% CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-% ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-% POSSIBILITY OF SUCH DAMAGE.
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation version 3 of the License.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with this program.
+% If not, see <https://www.gnu.org/licenses/gpl-3.0.en.html>.
 %
 narginchk(2, 3);
 
@@ -65,7 +53,10 @@ for k = 1:length(sample_data)
   
     % do not process if not current profiler ADCP
     distAlongBeamsIdx = getVar(sample_data{k}.dimensions, 'DIST_ALONG_BEAMS');
-    if ~distAlongBeamsIdx, continue; end
+    heightAboveSensorIdx = getVar(sample_data{k}.dimensions, 'HEIGHT_ABOVE_SENSOR');
+    if ~distAlongBeamsIdx
+        if ~heightAboveSensorIdx, continue; end
+    end
     
     % do not process if heading, pitch and roll not present in data set
     isMagCorrected = true;
@@ -92,8 +83,9 @@ for k = 1:length(sample_data)
     pitch = sample_data{k}.variables{pitchIdx}.data;
     roll  = sample_data{k}.variables{rollIdx}.data;
     
-    dist = sample_data{k}.dimensions{distAlongBeamsIdx}.data;
-    heightAboveSensorIdx = getVar(sample_data{k}.dimensions, 'HEIGHT_ABOVE_SENSOR');
+    if distAlongBeamsIdx
+        dist = sample_data{k}.dimensions{distAlongBeamsIdx}.data;
+    end
     if any(sample_data{k}.variables{vel1Idx}.dimensions == heightAboveSensorIdx)
         dist = sample_data{k}.dimensions{heightAboveSensorIdx}.data;
     end
@@ -140,25 +132,59 @@ for k = 1:length(sample_data)
     
     % we update the velocity values in ENU coordinates
     vars = {'UCUR', 'VCUR', 'WCUR'};
-    varSuffix = '';
-    if ~isMagCorrected, varSuffix = '_MAG'; end
+    varSuffix = {'', '', ''};
+    if ~isMagCorrected, varSuffix = {'_MAG', '_MAG', ''}; end
     for l=1:length(vars)
-        if strcmpi(vars{l}, 'WCUR')
-            curIdx  = getVar(sample_data{k}.variables, vars{l});
+        varName = [vars{l} varSuffix{l}];
+        curIdx = getVar(sample_data{k}.variables, varName);
+        if curIdx
+            % we update the velocity values in ENU coordinates
+            sample_data{k}.variables{curIdx}.data = squeeze(velENU(l, :, :));
+        
+            % need to update the dimensions/coordinates in case velocity in Beam
+            % coordinates would have been previously bin-mapped
+            sample_data{k}.variables{curIdx}.dimensions = sample_data{k}.variables{vel1Idx}.dimensions;
+            sample_data{k}.variables{curIdx}.coordinates = sample_data{k}.variables{vel1Idx}.coordinates;
+            
+            if ~isfield(sample_data{k}.variables{curIdx}, 'comment')
+                sample_data{k}.variables{curIdx}.comment = Beam2EnuComment;
+            else
+                sample_data{k}.variables{curIdx}.comment = [sample_data{k}.variables{curIdx}.comment ' ' Beam2EnuComment];
+            end
         else
-            curIdx  = getVar(sample_data{k}.variables, [vars{l} varSuffix]);
+            % we create a new variable for velocity values in ENU coordinates
+            sample_data{k} = addVar(...
+                sample_data{k}, ...
+                varName, ...
+                squeeze(velENU(l, :, :)), ...
+                sample_data{k}.variables{vel1Idx}.dimensions, ...
+                Beam2EnuComment, ...
+                sample_data{k}.variables{vel1Idx}.coordinates);
         end
-        sample_data{k}.variables{curIdx}.data = squeeze(velENU(l, :, :));
-        
-        % need to update the dimensions/coordinates in case velocity in Beam
-        % coordinates would have been previously bin-mapped
-        sample_data{k}.variables{curIdx}.dimensions = sample_data{k}.variables{vel1Idx}.dimensions;
-        sample_data{k}.variables{curIdx}.coordinates = sample_data{k}.variables{vel1Idx}.coordinates;
-        
-        if ~isfield(sample_data{k}.variables{curIdx}, 'comment')
-            sample_data{k}.variables{curIdx}.comment = Beam2EnuComment;
-        else
-            sample_data{k}.variables{curIdx}.comment = [sample_data{k}.variables{curIdx}.comment ' ' Beam2EnuComment];
+    end
+    
+    if distAlongBeamsIdx
+        % let's look for remaining variables assigned to DIST_ALONG_BEAMS,
+        % if none we can remove this dimension
+        isDistAlongBeamsUsed = false;
+        for j=1:length(sample_data{k}.variables)
+            if any(sample_data{k}.variables{j}.dimensions == distAlongBeamsIdx)
+                isDistAlongBeamsUsed = true;
+                break;
+            end
+        end
+        if ~isDistAlongBeamsUsed
+            if length(sample_data{k}.dimensions) > distAlongBeamsIdx
+                for j=1:length(sample_data{k}.variables)
+                    dimToUpdate = sample_data{k}.variables{j}.dimensions > distAlongBeamsIdx;
+                    if any(dimToUpdate)
+                        sample_data{k}.variables{j}.dimensions(dimToUpdate) = sample_data{k}.variables{j}.dimensions(dimToUpdate) - 1;
+                    end
+                end
+            end
+            sample_data{k}.dimensions(distAlongBeamsIdx) = [];
+            
+            Beam2EnuComment = [Beam2EnuComment ' DIST_ALONG_BEAMS is not used by any variable left and has been removed.'];
         end
     end
     

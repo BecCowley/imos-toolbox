@@ -1,21 +1,3 @@
-Skip to content
-Search or jump to?
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@BecCowley 
-34
-1714aodn/imos-toolbox
- Code Issues 73 Pull requests 2 Projects 3 Wiki Security Insights
-imos-toolbox/Util/populateMetadata.m
-@ggalibert ggalibert Updated software licensing to GPLv3.
-0feae8a on 31 Aug 2017
-@testGali@ggalibert
-224 lines (192 sloc)  8.68 KB
-  
 function sample_data = populateMetadata( sample_data )
 %POPULATEMETADATA poulates metadata fields in the given sample_data struct 
 % given the content of existing metadata and data.
@@ -240,15 +222,4 @@ function sample_data = populateMetadata( sample_data )
       updateViewMetadata(hPanel, sample_data, mode);
   end
 end
-© 2019 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
+

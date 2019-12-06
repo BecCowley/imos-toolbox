@@ -82,7 +82,7 @@ switch name
       comment = '';
         
     % strain gauge pressure (dbar)
-    case {'pr', 'prM', 'prdM', 'prSM'}
+    case {'pr', 'prM', 'prdM', 'prDM', 'prSM'}
       name = 'PRES_REL';
       comment = '';
       

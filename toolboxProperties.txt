@@ -1,6 +1,6 @@
 % filename or ODBC DSN of MS-ACCESS deployment database
 % ex. : /home/ggalibert/OceanDB.mdb or imos-ddb
-toolbox.ddb = 
+toolbox.ddb = /work/observations/oceanobs_data/EACdata/mooring/EAC1805_1909/data_processing/IMOScsvfiles/
 
 % or full connection details to other kind of deployment database :
 % class name of JDBC database driver

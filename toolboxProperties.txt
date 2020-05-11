@@ -40,7 +40,7 @@ autoQCManager.autoQCDefaultChain.timeSeries = imosImpossibleDateQC imosImpossibl
 autoQCManager.autoQCDefaultChain.profile = imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosGlobalRangeQC imosImpossibleDepthQC imosSalinityFromPTQC imosHistoricalManualSetQC
 
 % last selected set of auto QC routines
-autoQCManager.autoQCChain.timeSeries = imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosGlobalRangeQC imosImpossibleDepthQC imosCorrMagVelocitySetQC imosEchoIntensityVelocitySetQC imosErrorVelocitySetQC imosPercentGoodVelocitySetQC imosHorizontalVelocitySetQC imosVerticalVelocityQC imosSideLobeVelocitySetQC imosTiltVelocitySetQC imosSalinityFromPTQC
+autoQCManager.autoQCChain.timeSeries = imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosGlobalRangeQC imosImpossibleDepthQC imosCorrMagVelocitySetQC imosEchoIntensityVelocitySetQC imosErrorVelocitySetQC imosPercentGoodVelocitySetQC imosHorizontalVelocitySetQC imosVerticalVelocityQC imosSideLobeVelocitySetQC imosTiltVelocitySetQC imosHistoricalManualSetQC imosSalinityFromPTQC
 autoQCManager.autoQCChain.profile = imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosGlobalRangeQC imosImpossibleDepthQC imosSalinityFromPTQC imosHistoricalManualSetQC
 
 % prompt for preprocessing (if false, 
@@ -65,7 +65,7 @@ dataFileStatusDialog.multipleFileFormat    = italic
 % last selected values for start dialog
 startDialog.dataDir.timeSeries = /OSM/HBA/OA_DECADAL_CLIMATE/work/observations/oceanobs_data/EACdata/mooring/EAC1805_1909/raw_data
 startDialog.dataDir.profile = 
-startDialog.fieldTrip.timeSeries = EAC-2019-10-01
+startDialog.fieldTrip.timeSeries = EAC-2019-09-09
 startDialog.fieldTrip.profile = 
 startDialog.lowDate.timeSeries = 712224
 startDialog.lowDate.profile = 
@@ -76,7 +76,7 @@ startDialog.highDate.profile =
 importManager.manualDir = 
 
 % last selected directory for file export
-exportDialog.defaultDir = /work/observations/oceanobs_data/EACdata/mooring/EAC1805_1909/data_processing/IMOSnetcdf
+exportDialog.defaultDir = /OSM/HBA/OA_DECADAL_CLIMATE/work/observations/oceanobs_data/EACdata/mooring/EAC1805_1909/data_processing/IMOSnetcdf/EAC0500
 
 % prompt user to select parser if an appropriate one 
 % cannot be found (if false, the data is not imported)

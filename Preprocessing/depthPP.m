@@ -847,13 +847,13 @@ for iCurSam = 1:nDatasets
     
     if depthIdx(iCurSam)
         % update existing depth data in data set
-        sample_data{iCurSam}.(depthVarType).data = computedDepth;
+        sample_data{iCurSam}.(depthVarType){depthIdx(iCurSam)}.data = computedDepth;
         
-        depthComment = sample_data{iCurSam}.(depthVarType).comment;
+        depthComment = sample_data{iCurSam}.(depthVarType){depthIdx(iCurSam)}.comment;
         if isempty(depthComment)
-            sample_data{iCurSam}.(depthVarType).comment = computedDepthComment;
+            sample_data{iCurSam}.(depthVarType){depthIdx(iCurSam)}.comment = computedDepthComment;
         else
-            sample_data{iCurSam}.(depthVarType).comment = [comment ' ' computedDepthComment];
+            sample_data{iCurSam}.(depthVarType){depthIdx(iCurSam)}.comment = [comment ' ' computedDepthComment];
         end
         
     else

@@ -96,7 +96,7 @@ for k = 1:length(sample_data)
     roll = sample_data{k}.variables{rollIdx}.data * pi / 180;
     beamAngle = sample_data{k}.meta.beam_angle * pi / 180;
     
-    % Signs for correcting range(depth)
+    % Signs for upward and downfacing instruments
     if ~isUpwardLooking %for down facing adcps
         sg1 = 1; sg3 = 1;
     else %for up looking
@@ -109,13 +109,15 @@ for k = 1:length(sample_data)
     if isRDI% RDI 4 beams
         number_of_beams = 4;
         %TODO: block function.
+        CP = cos(pitch);
         % H[TxB] = P[T] x (+-R[T] x B[B])
-        nonMappedHeightAboveSensorBeam1 = (cos(beamAngle + sg1*roll) / cos(beamAngle) .* distAlongBeams);
-        nonMappedHeightAboveSensorBeam2 = (cos(beamAngle + -sg1*roll) / cos(beamAngle) .* distAlongBeams);
+        nonMappedHeightAboveSensorBeam1 = CP .* (cos(beamAngle + sg1*roll) / cos(beamAngle) .* distAlongBeams);
+        nonMappedHeightAboveSensorBeam2 = CP .* (cos(beamAngle - sg1*roll) / cos(beamAngle) .* distAlongBeams);
 
         % H[TxB] = R[T] x (-+P[T] x B[B])
-        nonMappedHeightAboveSensorBeam3 = (cos(beamAngle + sg3*pitch) / cos(beamAngle) .* distAlongBeams);
-        nonMappedHeightAboveSensorBeam4 = (cos(beamAngle + -sg3*pitch) / cos(beamAngle) .* distAlongBeams);
+        CR = cos(roll);
+        nonMappedHeightAboveSensorBeam3 = CR .* (cos(beamAngle + sg3*pitch) / cos(beamAngle) .* distAlongBeams);
+        nonMappedHeightAboveSensorBeam4 = CR .* (cos(beamAngle - sg3*pitch) / cos(beamAngle) .* distAlongBeams);
     else
         number_of_beams = 3;
         nBins = length(distAlongBeams);

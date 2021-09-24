@@ -72,6 +72,7 @@ for a = 1:length(autoQCData)
     
     switch type
         case 'surfacetest'
+
 %             ibd = round(length(Bins)/3);
                 ibd = 1;
             bd = depth(:,ibd+1:end);

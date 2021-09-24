@@ -7,6 +7,7 @@ for a = 1:length(autoQCData)
     if isempty(findstr(autoQCData{a}.instrument,'RDI'))
         continue
     end
+   
     disp(autoQCData{a}.meta.instrument_serial_no)
     yn = 'y';
     yn = input('continue with plots for this instrument [y default]?','s');
@@ -17,12 +18,22 @@ for a = 1:length(autoQCData)
     %get the data we need
     itime = getVar(sd.dimensions, 'TIME');
     iheight = getVar(sd.dimensions, 'HEIGHT_ABOVE_SENSOR');
+    if iheight == 0
+    iheight = getVar(sd.dimensions, 'DIST_ALONG_BEAMS');
+    end        
     ipresrel = getVar(sd.variables, 'PRES_REL');
     idepth = getVar(sd.variables, 'DEPTH');
     iucur = getVar(sd.variables, 'UCUR');
     ivcur = getVar(sd.variables, 'VCUR');
     iwcur = getVar(sd.variables, 'WCUR');
     ierv = getVar(sd.variables, 'ECUR');
+    if iucur == 0
+        %data is raw
+        iucur = getVar(sd.variables, 'VEL1');
+        ivcur = getVar(sd.variables, 'VEL2');
+        iwcur = getVar(sd.variables, 'VEL3');
+        ierv = getVar(sd.variables, 'VEL4');        
+    end
     
     time = sd.dimensions{itime}.data;
     u = sd.variables{iucur}.data;
@@ -34,10 +45,10 @@ for a = 1:length(autoQCData)
     flags = sd.variables{iucur}.flags;
     %depth 
     Bins    = sd.dimensions{iheight}.data';
-    if ~isempty(idepth)
-        depth = repmat(sd.variables{idepth}.data,1,length(Bins)) - repmat(Bins,length(time),1);
+    if idepth >0
+            depth = repmat(sd.variables{idepth}.data,1,length(Bins)) - repmat(Bins,length(time),1);
     else
-        depth = repmat(-1*gsw_z_from_p(pressure,-27),1,length(Bins)) - repmat(Bins,length(time),1)';
+        depth = repmat(-1*gsw_z_from_p(pressure,-27),1,length(Bins)) - repmat(Bins,length(time),1);
     end
     %cmag
     icmag1 = getVar(sd.variables, 'CMAG1');
@@ -61,10 +72,11 @@ for a = 1:length(autoQCData)
     
     switch type
         case 'surfacetest'
-            ibd = round(length(Bins)/2);
+            ibd = round(length(Bins)/3);
             %     ibd = 1;
             bd = depth(:,ibd+1:end);
             fl = flags(:,ibd+1:end);
+
             %plot the difference between bins of echo ampl average (not bin mapped)
             ea = NaN*ones(length(time),length(Bins)-1,4);
             for b = 1:4
@@ -73,9 +85,9 @@ for a = 1:length(autoQCData)
             eaa = squeeze(nanmean(ea,3));
             eadiff = abs(eaa(:,ibd:end));
             % plot
-            figure(5);clf;hold on
+            figure(7);clf;hold on
             pcolor(time,bd',eadiff');shading flat
-            caxis([0 60])
+            caxis([0 40])
             axis ij
             grid
             bd(fl<3) = NaN;
@@ -87,13 +99,12 @@ for a = 1:length(autoQCData)
             ylabel('Depth')
             legend('EchoAmp','Bad data','Surface')
             
-            figure(6);clf;hold on
-            bad = v;
-            bad(flags==4) = NaN;
+            figure(8);clf;hold on
             bd = depth;
-            bd(flags==4) = NaN;
-            pcolor(time,bd',bad');shading flat
-            caxis([0 2])
+            bd(flags<3) = NaN;
+            pcolor(time,depth',v');shading flat
+            plot(time,bd,'k.')
+            caxis([-2 0.5])
             axis ij
             grid
             plot([time(1),time(end)],[0,0],'k-')
@@ -104,8 +115,10 @@ for a = 1:length(autoQCData)
             
             %check the horizontal and vertical velocity thresholds here too
             %while we have the surface data flagged out
-            figure(1);clf
-            plot(bad,bd,'x')
+            figure(2);clf
+            bd = depth;
+            bd(flags>=3) = NaN;
+            plot(v,bd,'x')
             axis ij
             grid
             xlabel('V')
@@ -135,7 +148,7 @@ for a = 1:length(autoQCData)
             pcolor(time,bd',v');shading flat
             bd(flags<3) = NaN;
             plot(time,bd,'k.')
-            caxis([-0.6 0.6])
+            caxis([-2 0.6])
             axis ij
             grid
             plot([time(1),time(end)],[0,0],'k-')
@@ -185,7 +198,7 @@ for a = 1:length(autoQCData)
         case 'erv'
             figure(5);clf;hold on
             pcolor(time,depth',erv');shading flat
-            caxis([60 140])
+            caxis([-0.02 0.02])
             axis ij
             grid
             bd = depth;
@@ -214,6 +227,20 @@ for a = 1:length(autoQCData)
             legend('v','Surface')
             datetick
             
+            figure(7);clf;hold on
+            bd = depth;
+            bd(flags<3) = NaN;
+            pcolor(time,depth',u');shading flat
+            caxis([-0.6 0.6])
+            axis ij
+            grid
+            plot(time,bd,'k.')
+            plot([time(1),time(end)],[0,0],'k-')
+            colorbar
+            xlabel('Time')
+            ylabel('Depth')
+            legend('u','Surface')
+            datetick
         case 'echo'
             ea = NaN*ones(length(time),length(Bins)-1,4);
             for b = 1:4

@@ -57,7 +57,7 @@ autoQCManager.autoQCDefaultChain.timeSeries = imosImpossibleDateQC imosImpossibl
 autoQCManager.autoQCDefaultChain.profile = imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosGlobalRangeQC imosImpossibleDepthQC imosSalinityFromPTQC imosHistoricalManualSetQC imosTimeSeriesSpikeQC
 
 % last selected set of auto QC routines
-autoQCManager.autoQCChain.timeSeries = imosEchoIntensityVelocitySetQC
+autoQCManager.autoQCChain.timeSeries = imosGlobalRangeQC imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosErrorVelocitySetQC imosVerticalVelocityQC imosHorizontalVelocitySetQC imosTiltVelocitySetQC imosHistoricalManualSetQC imosSalinityFromPTQC
 autoQCManager.autoQCChain.profile = imosImpossibleDateQC imosImpossibleLocationSetQC imosInOutWaterQC imosGlobalRangeQC imosImpossibleDepthQC imosSalinityFromPTQC imosHistoricalManualSetQC
 
 % prompt for preprocessing (if false,
@@ -69,7 +69,7 @@ preprocessManager.preprocessDefaultChain.timeSeries = depthPP salinityPP oxygenP
 preprocessManager.preprocessDefaultChain.profile = depthPP salinityPP oxygenPP
 
 % last selected set of preprocessing routines
-preprocessManager.preprocessChain.timeSeries = adcpWorkhorseVelocityBeam2EnuPP depthPP
+preprocessManager.preprocessChain.timeSeries = adcpBinMappingPP adcpWorkhorseCorrMagPP adcpWorkhorseEchoRangePP adcpWorkhorseVelocityBeam2EnuPP adcpWorkhorseRDIensembleAveragingPP magneticDeclinationPP
 preprocessManager.preprocessChain.profile = depthPP salinityPP oxygenPP
 
 % file status dialog formatting styles
@@ -93,7 +93,7 @@ startDialog.highDate.profile =
 importManager.manualDir =
 
 % last selected directory for file export
-exportDialog.defaultDir = /oa-decadal-climate/work/observations/oceanobs_data/EACdata/mooring/EAC1505_1611/data_processing/IMOSnetcdf/extras
+exportDialog.defaultDir = /oa-decadal-climate/work/observations/oceanobs_data/EACdata/mooring/EAC1909_2105/data_processing/IMOSnetcdf/EAC0500
 
 % prompt user to select parser if an appropriate one
 % cannot be found (if false, the data is not imported)

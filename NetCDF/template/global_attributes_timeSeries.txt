@@ -2,7 +2,7 @@
 S, project                      = Integrated Marine Observing System (IMOS)
 S, Conventions                  = CF-1.6,IMOS-1.4
 S, standard_name_vocabulary     = NetCDF Climate and Forecast (CF) Metadata Convention Standard Name Table 45
-S, title                        = Data collected from the 2018 to 2019 deployment of East Australian Current (EAC) moorings
+S, title                        = Data collected from the 2019 to 2021 deployment of East Australian Current (EAC) moorings
 S, institution                  = 
 D, date_created                 = [mat now_utc]
 D, date_modified                = 

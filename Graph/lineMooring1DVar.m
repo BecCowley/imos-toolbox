@@ -208,7 +208,6 @@ for i=1:lenSampleData
             varFlags = sample_data{iSort(i)}.(typeVar){iVar}.flags;
             
             iGood = ismember(timeFlags, goodFlags) & ismember(varFlags, goodFlags);
-
         end
         
         if all(~iGood) && isQC

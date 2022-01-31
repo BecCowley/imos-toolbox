@@ -44,7 +44,6 @@ function flowManager(toolboxVersion)
   for k = 1:length(nonUTCRawData), nonUTCRawData{k}.meta.index = k; end
   
   % preprocess data
-
   [autoQCData, cancel] = preprocessManager(nonUTCRawData, 'qc', mode, false);
   if cancel
       rawData = nonUTCRawData;

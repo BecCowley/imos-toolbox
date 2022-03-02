@@ -219,7 +219,7 @@ classdef OceanContour
 
         end
 
-        function [varmap] = get_varmap(ftype, group_name, nbeams, custom_magnetic_declination, binmapped)
+        function [varmap] = get_varmap(ftype, group_name, nbeams, custom_magnetic_declination, binmapped, is_enu)
             %function [varmap] = get_varmap(ftype, group_name,nbeams,custom_magnetic_declination)
             %
             % Generate dynamical variable mappings for a certain
@@ -259,7 +259,7 @@ classdef OceanContour
             %
             % author: hugo.oliveira@utas.edu.au
             %
-            narginchk(5, 5)
+            narginchk(6, 6)
 
             if ~ischar(ftype)
                 errormsg('First argument is not a string')
@@ -295,11 +295,17 @@ classdef OceanContour
                 %TODO: Handle magnetic & along beam cases.
                 %varmap.('DIST_ALONG_BEAMS') = [group_name 'Velocity???_Range'];
                 %TODO: evaluate if when magnetic declination is provided, the
-                %velocity fields will be corrected or not (as well as any rename/comments added).                
-                varmap.(ucur_name) = [prefix 'Vel_East'];
-                varmap.(vcur_name) = [prefix 'Vel_North'];
+                %velocity fields will be corrected or not (as well as any rename/comments added).
                 varmap.(heading_name) = 'Heading';
-                varmap.('WCUR') = [prefix 'Vel_Up1'];
+                if is_enu
+                    varmap.(ucur_name) = [prefix 'Vel_East'];
+                    varmap.(vcur_name) = [prefix 'Vel_North'];
+                    varmap.('WCUR') = [prefix 'Vel_Up1'];
+                else
+                    varmap.('VEL1') = 'Vel_Beam1';
+                    varmap.('VEL2') = 'Vel_Beam2';
+                    varmap.('VEL3') = 'Vel_Beam3';                    
+                end
                 varmap.('ABSI1') = [prefix 'Amp_Beam1'];
                 varmap.('ABSI2') = [prefix 'Amp_Beam2'];
                 varmap.('ABSI3') = [prefix 'Amp_Beam3'];
@@ -308,7 +314,11 @@ classdef OceanContour
                 varmap.('CMAG3') = [prefix 'Cor_Beam3'];
 
                 if nbeams > 3
-                    varmap.('WCUR_2') = [prefix 'Vel_Up2'];
+                    if is_enu
+                        varmap.('WCUR_2') = [prefix 'Vel_Up2'];
+                    else
+                        varmap.('VEL4') = 'Vel_Beam4';
+                    end
                     varmap.('ABSI4') = [prefix 'Amp_Beam4'];
                     varmap.('CMAG4') = [prefix 'Cor_Beam4'];
                 end
@@ -319,10 +329,16 @@ classdef OceanContour
                 %instrument_serial_no is on metadata for matfiles.
                 varmap.('status') = 'Status';
                 varmap.('HEIGHT_ABOVE_SENSOR') = 'Range';
-                varmap.(ucur_name) = [prefix 'VelEast'];
-                varmap.(vcur_name) = [prefix 'VelNorth'];
                 varmap.(heading_name) = 'Heading';
-                varmap.('WCUR') = [prefix 'VelUp1'];
+                if is_enu
+                    varmap.(ucur_name) = [prefix 'VelEast'];
+                    varmap.(vcur_name) = [prefix 'VelNorth'];
+                    varmap.('WCUR') = [prefix 'VelUp1'];
+                else
+                    varmap.('VEL1') = 'VelBeam1';
+                    varmap.('VEL2') = 'VelBeam2';
+                    varmap.('VEL3') = 'VelBeam3';
+                end
                 varmap.('ABSI1') = [prefix 'AmpBeam1'];
                 varmap.('ABSI2') = [prefix 'AmpBeam2'];
                 varmap.('ABSI3') = [prefix 'AmpBeam3'];
@@ -331,7 +347,11 @@ classdef OceanContour
                 varmap.('CMAG3') = [prefix 'CorBeam3'];
 
                 if nbeams > 3
-                    varmap.('WCUR_2') = [prefix 'VelUp2'];
+                    if is_enu
+                        varmap.('WCUR_2') = [prefix 'VelUp2'];
+                    else
+                        varmap.('VEL4') = 'VelBeam4';
+                    end
                     varmap.('ABSI4') = [prefix 'AmpBeam4'];
                     varmap.('CMAG4') = [prefix 'CorBeam4'];
                 end
@@ -407,6 +427,41 @@ classdef OceanContour
 
             imap.('ENU') = ENU;
 
+            BEAM = struct();
+
+            BEAM.one_dimensional = {'TEMP', 'PRES_REL', 'SSPD', 'BAT_VOLT', 'PITCH', 'ROLL', heading_name, 'ERROR', 'AMBIG_VEL', 'TRANSMIT_E', 'NOMINAL_CORR'};
+            BEAM.velocity_variables = {'VEL1', 'VEL2', 'VEL3'};
+            BEAM.beam_amplitude_variables = {'ABSI1', 'ABSI2', 'ABSI3'};
+            BEAM.correlation_variables = {'CMAG1', 'CMAG2', 'CMAG3'};
+
+            if nbeams > 3
+                BEAM.velocity_variables = [BEAM.velocity_variables, 'VEL4'];
+                BEAM.beam_amplitude_variables = [BEAM.beam_amplitude_variables 'ABSI4'];
+                BEAM.correlation_variables = [BEAM.correlation_variables 'CMAG4'];
+            end
+
+            BEAM.two_dimensional = [BEAM.velocity_variables, BEAM.beam_amplitude_variables];
+            BEAM.all_variables = [BEAM.one_dimensional, BEAM.two_dimensional];
+            
+            imap.('BEAM') = BEAM;
+            
+            XYZ = struct();
+
+            XYZ.one_dimensional = {'TEMP', 'PRES_REL', 'SSPD', 'BAT_VOLT', 'PITCH', 'ROLL', heading_name, 'ERROR', 'AMBIG_VEL', 'TRANSMIT_E', 'NOMINAL_CORR'};
+            XYZ.velocity_variables = {'VEL1', 'VEL2', 'VEL3'};
+            XYZ.beam_amplitude_variables = {'ABSI1', 'ABSI2', 'ABSI3'};
+            XYZ.correlation_variables = {'CMAG1', 'CMAG2', 'CMAG3'};
+
+            if nbeams > 3
+                XYZ.velocity_variables = [XYZ.velocity_variables, 'VEL4'];
+                XYZ.beam_amplitude_variables = [XYZ.beam_amplitude_variables 'ABSI4'];
+                XYZ.correlation_variables = [XYZ.correlation_variables 'CMAG4'];
+            end
+
+            XYZ.two_dimensional = [XYZ.velocity_variables, XYZ.beam_amplitude_variables];
+            XYZ.all_variables = [XYZ.one_dimensional, XYZ.two_dimensional];
+            
+            imap.('XYZ') = XYZ;
         end
 
         function [sample_data] = readOceanContourFile(filename)
@@ -550,13 +605,37 @@ classdef OceanContour
 
                 meta.magDec = get_att('magDec');
                 custom_magnetic_declination = logical(meta.magDec);
-                meta.binMapping = get_att('binMapping');
-                binmapped = logical(meta.binMapping);                                               
+                try
+                    meta.binMapping = get_att('binMapping');
+                catch
+                    meta.binMapping = false;
+                end
+                is_binmapped = logical(meta.binMapping);                                               
                 %Now that we know some preliminary info, we can load the variable
                 % name mappings and the list of variables to import.
-                
-                
-                var_mapping = OceanContour.get_varmap(ftype, group_name, nBeams, custom_magnetic_declination,binmapped);
+
+                coordinate_system = get_att('coordinate_system');
+                switch coordinate_system
+                    case {'XYZ', 'BEAM'}
+                        meta.coordinate_system = coordinate_system;
+                        try
+                            has_converted_to_enu = logical(get_att('converted_to_enu'));
+                        catch
+                            has_converted_to_enu = false;
+                        end
+                        if has_converted_to_enu
+                            meta.coordinate_system = 'ENU';
+                        else
+                            dispmsg('Unsuported coordinates. %s contains non-ENU data.', filename)
+                        end
+                    case 'ENU'
+                        meta.coordinate_system = 'ENU';
+                        % OK
+                    otherwise
+                        errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
+                end
+                is_enu = strcmp(meta.coordinate_system, 'ENU');
+                var_mapping = OceanContour.get_varmap(ftype, group_name, nBeams, custom_magnetic_declination, is_binmapped, is_enu);
                 import_mapping = OceanContour.get_importmap(nBeams, custom_magnetic_declination);
 
                 %subset the global metadata fields to only the respective group.
@@ -641,20 +720,7 @@ classdef OceanContour
                     meta.('instrument_sample_interval') = actual_sample_interval;                    
                 end
 
-                coordinate_system = get_att('coordinate_system');
-                switch coordinate_system
-                    case 'XYZ'
-                        if logical(get_att('converted_to_enu'))
-                            meta.coordinate_system = 'ENU';
-                        else
-                            errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
-                        end                    
-                    case 'ENU'
-                        meta.coordinate_system = 'ENU';
-                        % OK                                                
-                    otherwise
-                        errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
-                end
+
               
                 z = get_var('HEIGHT_ABOVE_SENSOR');              
                 try
@@ -682,6 +748,12 @@ classdef OceanContour
                         dimensions = IMOS.gen_dimensions('adcp');
                 end
                 
+                adcpOrientation = mode(bitand(bitshift(uint32(get_var('status')), -25),7));
+                if adcpOrientation == 5
+                    % case of a downward looking ADCP -> negative values
+                    z= -z;
+                end
+
                 dimensions{1}.data = time;
                 dimensions{1}.comment = 'time imported from matlabTimeStamp variable';
                 dimensions{2}.data = z;
@@ -692,7 +764,9 @@ classdef OceanContour
                         onedim_vnames = import_mapping.('ENU').one_dimensional;
                         twodim_vnames = import_mapping.('ENU').two_dimensional;
                     otherwise
-                        errormsg('%s coordinates found in %s is not implemented yet', filename, adcp_data_type)
+                        onedim_vnames = import_mapping.(meta.coordinate_system).one_dimensional;
+                        twodim_vnames = import_mapping.(meta.coordinate_system).two_dimensional;
+                        dispmsg('%s coordinates found in %s is not implemented yet', filename, meta.coordinate_system)
                 end
 
                 onedim_vcoords = [dimensions{1}.name ' LATITUDE LONGITUDE ' 'NOMINAL_DEPTH']; %TODO: point to Pressure/Depth via CF-conventions

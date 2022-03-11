@@ -93,7 +93,7 @@ classdef OceanContour
                 errormsg('build_magnetic_variables: first argument is not a logical')
             end
 
-            if custom_magnetic_declination
+            if ~custom_magnetic_declination
                 %TODO: This is probably unecessary
                 %I believe OceanContourDouble-check if OceanContour will change variable names if custom magnetic declination is used.
                 dispmsg('%s: Assigning non ENU Velocities to ENU variables. Verify the magnetic declination angles.')
@@ -191,7 +191,7 @@ classdef OceanContour
             attmap.('converted_to_enu') = 'DataInfo_transformsAndCorrections_addENU';            
             attmap.('nBeams') = OceanContour.build_instrument_name(group_name, 'nBeams');
             attmap.('activeBeams') = OceanContour.build_instrument_name(group_name, 'activeBeams'); %no previous name
-            attmap.('magDec') = 'Instrument_user_decl';
+            attmap.('magDec') = 'DataInfo_transformsAndCorrections_magneticDeclination';
             attmap.('binMapping') = 'DataInfo_transformsAndCorrections_binMapping';
 
             if strcmpi(ftype, 'mat')

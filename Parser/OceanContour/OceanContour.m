@@ -10,7 +10,7 @@ classdef OceanContour
     %
     %TODO: Design metadata typecasting.
     properties (Constant)
-        beam_angles = struct('Signature250', 20, 'Signature500', 25, 'Signature1000', 25);
+        beam_angles = struct('Signature55', 20, 'Signature100', 20, 'Signature250', 20, 'Signature500', 25, 'Signature1000', 25);
     end
 
     methods (Static)

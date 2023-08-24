@@ -279,19 +279,23 @@ function displayManager(windowTitle, sample_data, callbacks)
       function dataClickCallback(ax, type, point)
       %DATACLICKCALLBACK Called when the user clicks on a region of data.
       %
-          if ~strcmpi(type, 'normal'), return; end
+          if ~any(strcmpi(type, {'normal', 'extend'})), return; end
           
           % line handles are stored in the axis userdata
           ud = get(ax, 'UserData');
 
           varIdx = ud{2};
           
+          if isvector(sample_data{setIdx}.variables{vars(varIdx)}.data), return; end
+          
           varName = sample_data{setIdx}.variables{vars(varIdx)}.name;
           
           graphFunc = getGraphFunc(graphType, 'graph', varName);
-          if strcmpi(func2str(graphFunc), 'graphTimeSeriesTimeDepth')
-              lineMooring2DVarSection(sample_data{setIdx}, varName, point(1), false, false, '')
-          end
+              if strcmpi(type, 'normal')
+                  lineMooring2DVarSection(sample_data{setIdx}, varName, point(1), true, false, '');
+              else
+                  lineMooring2DVarSlice(sample_data{setIdx}, varName, point(2), true, false, '');
+              end
       end
       
       function dataSelectCallbackDoNothing(ax, type, range)
@@ -383,18 +387,24 @@ function displayManager(windowTitle, sample_data, callbacks)
       function dataClickCallback(ax, type, point)
       %DATACLICKCALLBACK Called when the user clicks on a region of data.
       %
-          if ~strcmpi(type, 'normal'), return; end
+          if ~any(strcmpi(type, {'normal', 'extend'})), return; end
           
           % line handles are stored in the axis userdata
           ud = get(ax, 'UserData');
 
           varIdx = ud{2};
           
+          if isvector(sample_data{setIdx}.variables{vars(varIdx)}.data), return; end
+          
           varName = sample_data{setIdx}.variables{vars(varIdx)}.name;
           
           graphFunc = getGraphFunc(graphType, 'graph', varName);
           if strcmpi(func2str(graphFunc), 'graphTimeSeriesTimeDepth')
-              lineMooring2DVarSection(sample_data{setIdx}, varName, point(1), true, false, '')
+              if strcmpi(type, 'normal')
+                  lineMooring2DVarSection(sample_data{setIdx}, varName, point(1), true, false, '');
+              else
+                  lineMooring2DVarSlice(sample_data{setIdx}, varName, point(2), true, false, '');
+              end
           end
       end
       

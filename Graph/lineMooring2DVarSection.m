@@ -160,8 +160,8 @@ if iVar > 0
     dataVarMean = NaN(nRows, 1);
     dataVarStd  = NaN(nRows, 1);
     for j=1:nRows
-        dataVarMean(j) = mean(dataVar(iMean(:, j), j));
-        dataVarStd (j) = std (dataVar(iMean(:, j), j));
+        dataVarMean(j) = mean(dataVar(iMean(:, j), j), 'omitnan');
+        dataVarStd (j) = std (dataVar(iMean(:, j), j), 'omitnan');
     end
     
     hLineVar(2) = line(dataVarMean, ...

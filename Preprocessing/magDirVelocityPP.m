@@ -68,7 +68,7 @@ for k = 1:length(sample_data)
   % convert cspd, cdir CW from N to U/V
   [vcur, ucur] = pol2cart(deg2rad(cdir), cspd);
   
-  dimensions = sam.variables{ucurIdx}.dimensions;
+  dimensions = sam.variables{cspdIdx}.dimensions;
   comment = 'magDirVelocityPP.m: UCUR and VCUR were derived from CSPD and CDIR.';
   
   if isfield(sam.variables{cspdIdx}, 'coordinates')

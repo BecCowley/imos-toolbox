@@ -73,6 +73,7 @@ idDepth = 0;
 idUcur = 0;
 idVcur = 0;
 idWcur = 0;
+idWcur2 = 0;
 idCspd = 0;
 idCdir = 0;
 lenVar = length(sample_data.variables);
@@ -85,12 +86,13 @@ for i=1:lenVar
     if strncmpi(paramName, 'UCUR', 4),  idUcur    = i; end
     if strncmpi(paramName, 'VCUR', 4),  idVcur    = i; end
     if strcmpi(paramName, 'WCUR'),      idWcur    = i; end
+    if strcmpi(paramName, 'WCUR_2'),      idWcur2    = i; end
     if strcmpi(paramName, 'CSPD'),      idCspd    = i; end
     if strncmpi(paramName, 'CDIR', 4),  idCdir    = i; end
 end
 
 % check if the data is compatible with the QC algorithm
-idMandatory = idHeight & (idUcur | idVcur | idWcur | idCspd | idCdir);
+idMandatory = idHeight & (idUcur | idVcur | idWcur | idWcur2 | idCspd | idCdir);
 
 if ~idMandatory, return; end
 
@@ -237,6 +239,12 @@ if idWcur
     sample_data.variables{idWcur}.flags = flags;
     varChecked = [varChecked, {'WCUR'}];
 end
+
+if idWcur2
+    sample_data.variables{idWcur2}.flags = flags;
+    varChecked = [varChecked, {'WCUR_2'}];
+end
+
 if idCspd
     sample_data.variables{idCspd}.flags = flags;
     varChecked = [varChecked, {'CSPD'}];
@@ -246,10 +254,12 @@ if idUcur
     sample_data.variables{idUcur}.flags = flags;
     varChecked = [varChecked, {sample_data.variables{idUcur}.name}];
 end
+
 if idVcur
     sample_data.variables{idVcur}.flags = flags;
     varChecked = [varChecked, {sample_data.variables{idVcur}.name}];
 end
+
 if idCdir
     sample_data.variables{idCdir}.flags = flags;
     varChecked = [varChecked, {sample_data.variables{idCdir}.name}];

@@ -1,0 +1,1943 @@
+{
+	"name": "Waves",
+	"dimensions": [
+		{
+			"name": "time"
+		},
+		{
+			"name": "EnergySpectra_Frequency"
+		},
+		{
+			"name": "FrequencyDiagram_Frequency"
+		},
+		{
+			"name": "FourierCoefficients_Frequency"
+		},
+		{
+			"name": "WaveSpectra_Frequency"
+		},
+		{
+			"name": "DirectionalSpectra_Frequency"
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Frequency"
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Direction"
+		},
+		{
+			"name": "ASTSpectra_Frequency"
+		},
+		{
+			"name": "ASTSpectra_Direction"
+		},
+		{
+			"name": "PressureSpectra_Frequency"
+		},
+		{
+			"name": "PressureSpectra_Direction"
+		},
+		{
+			"name": "VelocitySpectra_Frequency"
+		},
+		{
+			"name": "VelocitySpectra_Direction"
+		}
+	],
+	"variables": [
+		{
+			"name": "time",
+			"shape": "time",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "calendar",
+					"value": "gregorian"
+				},
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "units",
+					"value": "seconds since 1970-01-01T00:00:00+00:00"
+				},
+				{
+					"name": "description",
+					"value": "Time of measurement"
+				}
+			]
+		},
+		{
+			"name": "Status_Missing_Data",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_No_Pressure",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Low_Pressure",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Amplitude",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_White_Noise",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Unreasonable_Estimate",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Never_Processed",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_AST_Out_Of_Bounds",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Direction_Ambiguity",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Pressure_Peak",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Close_to_Clip",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_AST_Loss_High",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_High_Tilt",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "Status_Correlation",
+			"shape": "time",
+			"type": "byte",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "TargetCell",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "SpectrumType",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "0: Pressure 1:Velocity 3:AST"
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "SurfaceDetection_None",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "None - Percentage of pings that did not detect the surface; Bad - Surface detected, but outside"
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "SurfaceDetection_Bad",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "None - Percentage of pings that did not detect the surface; Bad - Surface detected, but outside"
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "FrequencyAmbiguityLimit",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Cut off frequency, directional estimates are valid for frequencies below this limit"
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "ProcessingTime",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Length of time it took to process this ensemble"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "ZeroCrossings",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "description",
+					"value": "Number of zero crossings"
+				},
+				{
+					"name": "units",
+					"value": ""
+				},
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				}
+			]
+		},
+		{
+			"name": "Period_Tm02",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Periods for Tm02: Spectrum mean wave; Tp: Peak wave; Tz: Mean zero-crossing; T3: Mean 1/3; T10: mean 1/10; Tmax: maximum period"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "Period_Tp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Periods for Tm02: Spectrum mean wave; Tp: Peak wave; Tz: Mean zero-crossing; T3: Mean 1/3; T10: mean 1/10; Tmax: maximum period"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "Period_Tenergy",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Periods for Tm02: Spectrum mean wave; Tp: Peak wave; Tz: Mean zero-crossing; T3: Mean 1/3; T10:"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "Period_Tmax",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Periods for Tm02: Spectrum mean wave; Tp: Peak wave; Tz: Mean zero-crossing; T3: Mean 1/3; T10: mean 1/10; Tmax: maximum period"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "Period_Tz",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Periods for Tm02: Spectrum mean wave; Tp: Peak wave; Tz: Mean zero-crossing; T3: Mean 1/3; T10: mean 1/10; Tmax: maximum period"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "Period_T10",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Periods for Tm02: Spectrum mean wave; Tp: Peak wave; Tz: Mean zero-crossing; T3: Mean 1/3; T10: mean 1/10; Tmax: maximum period"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "Period_T3",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Periods for Tm02: Spectrum mean wave; Tp: Peak wave; Tz: Mean zero-crossing; T3: Mean 1/3; T10: mean 1/10; Tmax: maximum period"
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "Height_Hm0",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Hm0: Significant height; H3: AST mean height of the 33% largest waves; H10: AST mean height of 10% largest waves; Hmax: largest wave"
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "Height_Hmax",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Hm0: Significant height; H3: AST mean height of the 33% largest waves; H10: AST mean height of "
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "Height_H10",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Hm0: Significant height; H3: AST mean height of the 33% largest waves; H10: AST mean height of "
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "Height_H3",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Hm0: Significant height; H3: AST mean height of the 33% largest waves; H10: AST mean height of "
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "Height_Hmean",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "description",
+					"value": "Hm0: Significant height; H3: AST mean height of the 33% largest waves; H10: AST mean height of "
+				},
+				{
+					"name": "units",
+					"value": "m"
+				},
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				}
+			]
+		},
+		{
+			"name": "Direction_DirTp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Direction at peak wave period; Spreading at peak wave period; Mean wave direction"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "Direction_SprTp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Direction at peak wave period; Spreading at peak wave period; Mean wave direction"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "Direction_MeanDir",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Direction at peak wave period; Spreading at peak wave period; Mean wave direction"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "UnidirectivityIndex",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "0 - 1"
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "CurrentSpeed",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Mean Current Speed - wave cell"
+				},
+				{
+					"name": "units",
+					"value": "m/s"
+				}
+			]
+		},
+		{
+			"name": "CurrentDirection",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Mean current direction - wave cell"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "Pressure",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Mean pressure / distance during burst"
+				},
+				{
+					"name": "units",
+					"value": "dbar/m"
+				}
+			]
+		},
+		{
+			"name": "Distance",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Mean pressure / distance during burst"
+				},
+				{
+					"name": "units",
+					"value": "dbar/m"
+				}
+			]
+		},
+		{
+			"name": "WaveCellPosition",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "ASTWindow_Floor",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "ASTWindow_Ceiling",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "Temperature",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "C"
+				}
+			]
+		},
+		{
+			"name": "Battery_Voltage",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "V"
+				}
+			]
+		},
+		{
+			"name": "Heading",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "Tilt_Pitch",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "Tilt_Roll",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "BandSpectrumType_Lower",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "0: Pressure 1:Velocity 3:AST"
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "BandSpectrumType_Upper",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "0: Pressure 1:Velocity 3:AST"
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "BandError_Lower",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "BandError_Upper",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "BandFrequency_L_Low",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) band frequencies"
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "BandFrequency_L_High",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) band frequencies"
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				},
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				}
+			]
+		},
+		{
+			"name": "BandFrequency_U_Low",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) band frequencies"
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "BandFrequency_U_High",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) band frequencies"
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "BandHeight_L_Hm0",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) band spectrally significant wave height"
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "BandHeight_U_Hm0",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) band spectrally significant wave height"
+				},
+				{
+					"name": "units",
+					"value": "m"
+				}
+			]
+		},
+		{
+			"name": "BandPeriod_L_Tm02",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) Tm02: Mean period spectrum based; Tp: Peak period "
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "BandPeriod_L_Tp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) Tm02: Mean period spectrum based; Tp: Peak period "
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "BandPeriod_U_Tm02",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) Tm02: Mean period spectrum based; Tp: Peak period "
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "BandPeriod_U_Tp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) Tm02: Mean period spectrum based; Tp: Peak period "
+				},
+				{
+					"name": "units",
+					"value": "s"
+				}
+			]
+		},
+		{
+			"name": "BandDirection_L_DirTp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) DirTp: Direction at peak period, DirMean : Mean wave direction; SprTp"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "BandDirection_L_DirMean",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) DirTp: Direction at peak period, DirMean : Mean wave direction; SprTp"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "BandDirection_L_SprTp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) DirTp: Direction at peak period, DirMean : Mean wave direction; SprTp"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "BandDirection_U_DirTp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) DirTp: Direction at peak period, DirMean : Mean wave direction; SprTp"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "BandDirection_U_DirMean",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) DirTp: Direction at peak period, DirMean : Mean wave direction; SprTp"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "BandDirection_U_SprTp",
+			"shape": "time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": "Lower (L_) and upper (U_) DirTp: Direction at peak period, DirMean : Mean wave direction; SprTp"
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "EnergySpectra_Frequency",
+			"shape": "EnergySpectra_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "EnergySpectra",
+			"shape": "EnergySpectra_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m^2/Hz"
+				}
+			]
+		},
+		{
+			"name": "FrequencyDiagram_Frequency",
+			"shape": "FrequencyDiagram_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "FrequencyDiagram",
+			"shape": "FrequencyDiagram_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "units",
+					"value": ""
+				},
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "FourierCoefficients_Frequency",
+			"shape": "FourierCoefficients_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "FourierCoefficients_A1",
+			"shape": "FourierCoefficients_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "units",
+					"value": ""
+				},
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "FourierCoefficients_B1",
+			"shape": "FourierCoefficients_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "FourierCoefficients_A2",
+			"shape": "FourierCoefficients_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "FourierCoefficients_B2",
+			"shape": "FourierCoefficients_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "WaveSpectra_Frequency",
+			"shape": "WaveSpectra_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "WaveSpectra_Vel",
+			"shape": "WaveSpectra_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "units",
+					"value": "m^2/Hz"
+				},
+				{
+					"name": "description",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "WaveSpectra_Pressure",
+			"shape": "WaveSpectra_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m^2/Hz"
+				}
+			]
+		},
+		{
+			"name": "WaveSpectra_AST",
+			"shape": "WaveSpectra_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m^2/Hz"
+				}
+			]
+		},
+		{
+			"name": "DirectionalSpectra_Frequency",
+			"shape": "DirectionalSpectra_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "Direction",
+			"shape": "DirectionalSpectra_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "DirectionalSpectra_Spread",
+			"shape": "DirectionalSpectra_Frequency time",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Frequency",
+			"shape": "FullWaveDirectionalSpectra_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Direction",
+			"shape": "FullWaveDirectionalSpectra_Direction",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Energy",
+			"shape": "time FullWaveDirectionalSpectra_Direction FullWaveDirectionalSpectra_Frequency",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "units",
+					"value": ""
+				},
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "-9.0"
+				},
+				{
+					"name": "description",
+					"value": ""
+				}
+			]
+		},
+		{
+			"name": "ASTSpectra_Frequency",
+			"shape": "ASTSpectra_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "ASTSpectra_Direction",
+			"shape": "ASTSpectra_Direction",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "ASTSpectra_Energy",
+			"shape": "time ASTSpectra_Direction ASTSpectra_Frequency",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "-9.0"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m^2/Hz"
+				}
+			]
+		},
+		{
+			"name": "PressureSpectra_Frequency",
+			"shape": "PressureSpectra_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "PressureSpectra_Direction",
+			"shape": "PressureSpectra_Direction",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "PressureSpectra_Energy",
+			"shape": "time PressureSpectra_Direction PressureSpectra_Frequency",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m^2/Hz"
+				},
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "-9.0"
+				}
+			]
+		},
+		{
+			"name": "VelocitySpectra_Frequency",
+			"shape": "VelocitySpectra_Frequency",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "Hz"
+				}
+			]
+		},
+		{
+			"name": "VelocitySpectra_Direction",
+			"shape": "VelocitySpectra_Direction",
+			"type": "double",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "double",
+					"value": "NaN"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "?"
+				}
+			]
+		},
+		{
+			"name": "VelocitySpectra_Energy",
+			"shape": "time VelocitySpectra_Direction VelocitySpectra_Frequency",
+			"type": "float",
+			"attribute": [
+				{
+					"name": "_FillValue",
+					"type": "float",
+					"value": "-9.0"
+				},
+				{
+					"name": "description",
+					"value": ""
+				},
+				{
+					"name": "units",
+					"value": "m^2/Hz"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,1816 @@
+{
+    "name": "Config",
+    "attribute": [
+      {
+        "name": "exportRevision"
+      },
+      {
+        "name": "Instrument_oscilloscopeMode",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_oscilloscopeMode_description",
+        "value": "Oscilloscope mode enabled (1)/disabled (0)"
+      },
+      {
+        "name": "Instrument_plan_nstt",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_plan_nstt_description",
+        "value": "Number of slots per second in plan"
+      },
+      {
+        "name": "Instrument_pressure",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_pressure_description",
+        "value": "Pressure sensor installed"
+      },
+      {
+        "name": "Instrument_temperature",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_temperature_description",
+        "value": "Temperature sensor installed"
+      },
+      {
+        "name": "Instrument_compass",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_compass_description",
+        "value": "Compass installed"
+      },
+      {
+        "name": "Instrument_tilt",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_tilt_description",
+        "value": "Tilt sensor installed"
+      },
+      {
+        "name": "Instrument_timeSync",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_timeSync_description",
+        "value": "Time sync mode (0 = disabled, 1 = PTP, 2 = NTP)"
+      },
+      {
+        "name": "Instrument_alternateEnable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_alternateEnable_description",
+        "value": "Enable / disable the alternate configuration"
+      },
+      {
+        "name": "Instrument_plan_frequency",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_plan_frequency_description",
+        "value": "Transmit frequency when licensed (system dependent) (kHz)"
+      },
+      {
+        "name": "Instrument_plan_verticalDirection",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_plan_verticalDirection_description",
+        "value": "Vertical Direction: 0=horizontal (4 beams), 1=descending(3 beams) 2=ascending (3 beams)"
+      },
+      {
+        "name": "Instrument_plan_maxVelocity",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_plan_maxVelocity_description",
+        "value": "Absolute maximum vertical velocity (cm/s)"
+      },
+      {
+        "name": "Instrument_plan_powerUsage",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_plan_powerUsage_description",
+        "value": "Power consumption for the current plan settings (mW)"
+      },
+      {
+        "name": "Instrument_soundVelocity",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_soundVelocity_description",
+        "value": "Velocity of sound (1300-1700, 0 = calculated by sensor) (m/s)"
+      },
+      {
+        "name": "Instrument_salinity",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_salinity_description",
+        "value": "Salinity (0.0-50.0) (ppt)"
+      },
+      {
+        "name": "Instrument_internalFilename"
+      },
+      {
+        "name": "Instrument_internalFilename_description",
+        "value": "File name used for instrument storage"
+      },
+      {
+        "name": "Instrument_bursthr_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_bursthr_enable_description",
+        "value": "Enable HR mode for burst data"
+      },
+      {
+        "name": "Instrument_burst_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_enable_description",
+        "value": "Burst mode enabled (1) or disabled (0)"
+      },
+      {
+        "name": "Instrument_burst_bottomTrack",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_bottomTrack_description",
+        "value": "Enable (1) / disable (0) burst mode bottom tracking"
+      },
+      {
+        "name": "Instrument_burst_altimeter",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_altimeter_description",
+        "value": "Altimeter measurements enabled (1) or disabled (0)"
+      },
+      {
+        "name": "Instrument_burst_nCells",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_burst_nCells_description",
+        "value": "Number of cells in the burst profile"
+      },
+      {
+        "name": "Instrument_burst_nBeams",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_burst_nBeams_description",
+        "value": "Number of configured beams to sample in burst mode (0 = PLAN,VD based)"
+      },
+      {
+        "name": "Instrument_burst_nPings",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_burst_nPings_description",
+        "value": "Burst mode number of pings per ensemble"
+      },
+      {
+        "name": "Instrument_burst_measurementInterval",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_burst_measurementInterval_description",
+        "value": "Burst mode measurement interval (0 = continuous) (s)"
+      },
+      {
+        "name": "Instrument_burst_channelMapping",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_burst_channelMapping_description",
+        "value": "Which beams are enabled in burst mode (e.g. 12345 = beam 1 - 2 - 3 - 4 - 5)"
+      },
+      {
+        "name": "Instrument_burst_cellSize",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_cellSize_description",
+        "value": "Burst mode cell size (m)"
+      },
+      {
+        "name": "Instrument_burst_blankingDistance",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_blankingDistance_description",
+        "value": "Burst mode distance to first cell (m)"
+      },
+      {
+        "name": "Instrument_burst_sampleRate",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_sampleRate_description",
+        "value": "Burst mode sampling rate (Hz)"
+      },
+      {
+        "name": "Instrument_burst_transmitPower",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_transmitPower_description",
+        "value": "Burst mode transmit power level (-100 to 0) (dB)"
+      },
+      {
+        "name": "Instrument_burst_velocityRange",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_velocityRange_description",
+        "value": "Burst mode velocity range along beam (m/s)"
+      },
+      {
+        "name": "Instrument_burst_velocityRange5",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_velocityRange5_description",
+        "value": "Burst mode velocity range along beam 5 (m/s)"
+      },
+      {
+        "name": "Instrument_burst_coordSystem"
+      },
+      {
+        "name": "Instrument_burst_coordSystem_description",
+        "value": "Burst mode coordinate system"
+      },
+      {
+        "name": "Instrument_burst_powerUsage",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_powerUsage_description",
+        "value": "Power consumption for the current burst mode settings (mW)"
+      },
+      {
+        "name": "Instrument_burst_activeBeams",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_activeBeams_description",
+        "value": "Number of beams actually used for burst mode"
+      },
+      {
+        "name": "Instrument_burst_horizontalPrecision",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_horizontalPrecision_description",
+        "value": "Burst mode horizontal precision (cm/s)"
+      },
+      {
+        "name": "Instrument_burst_verticalPrecision",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_verticalPrecision_description",
+        "value": "Burst mode vertical precision (cm/s)"
+      },
+      {
+        "name": "Instrument_burst_beamPrecision",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_beamPrecision_description",
+        "value": "Burst mode beam velocity precision (when in beam co-ordinates) (cm/s)"
+      },
+      {
+        "name": "Instrument_burst_memoryUsage",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_memoryUsage_description",
+        "value": "Burst mode memory usage rate (MB/hr)"
+      },
+      {
+        "name": "Instrument_burst_beam2xyz_rows",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_beam2xyz_rows_description",
+        "value": "Burst XYZ co-ordinate transfer matrix number of rows"
+      },
+      {
+        "name": "Instrument_burst_beam2xyz_columns",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_beam2xyz_columns_description",
+        "value": "Burst XYZ co-ordinate transfer matrix number of columns"
+      },
+      {
+        "name": "Instrument_burst_beam2xyz",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_beam2xyz_description",
+        "value": "Burst XYZ co-ordinate transfer matrix"
+      },
+      {
+        "name": "Instrument_burst_nSamples",
+        "type": "double"
+      },
+      {
+        "name": "Instrument_burst_nSamples_description",
+        "value": "Number of burst mode samples"
+      },
+      {
+        "name": "Instrument_burst_disv",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_disv_description",
+        "value": "Disable velocity data output (1/0)"
+      },
+      {
+        "name": "Instrument_burst_rawAlti",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_rawAlti_description",
+        "value": "Include/exclude raw altimeter data"
+      },
+      {
+        "name": "Instrument_burst_altiStart",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_altiStart_description",
+        "value": "Burst mode start range for altitude measurement"
+      },
+      {
+        "name": "Instrument_burst_altiEnd",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burst_altiEnd_description",
+        "value": "Burst mode end range for altitude measurement"
+      },
+      {
+        "name": "Instrument_burst_altiNBeams",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burst_altiNBeams_description",
+        "value": "Burst number of beams used for altimeter measurement"
+      },
+      {
+        "name": "Instrument_bursthr_enable5",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_bursthr_enable5_description",
+        "value": "Enable high resolution mode on beam 5"
+      },
+      {
+        "name": "Instrument_burstAltimeter_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burstAltimeter_nBeams",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burstAltimeter_nBeams_description",
+        "value": "Burst altimeter number of beams"
+      },
+      {
+        "name": "Instrument_burstAltimeter_start",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burstAltimeter_start_description",
+        "value": "Burst altimeter blanking distance (m)"
+      },
+      {
+        "name": "Instrument_burstAltimeter_cellSize",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burstAltimeter_cellSize_description",
+        "value": "Burst altimeter cell size (m)"
+      },
+      {
+        "name": "Instrument_burstAltimeter_nSamples",
+        "type": "double"
+      },
+      {
+        "name": "Instrument_burstAltimeter_nSamples_description",
+        "value": "Burst altimeter sample count"
+      },
+      {
+        "name": "Instrument_burst_rawAltiSpacing",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_burst_rawAltiSpacing_description",
+        "value": "Add raw altimeter every 'N' burst intervals"
+      },
+      {
+        "name": "Instrument_avg_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_enable_description",
+        "value": "Average mode enabled (1) or disabled (0)"
+      },
+      {
+        "name": "Instrument_avg_altimeter",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_altimeter_description",
+        "value": "Enable (1) / disable (0) altimeter output"
+      },
+      {
+        "name": "Instrument_avg_bottomTrack",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_bottomTrack_description",
+        "value": "Enable (1) / disable (0) CP bottom tracking"
+      },
+      {
+        "name": "Instrument_avg_mux",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_mux_description",
+        "value": "Average mode multiplexor enable (0/1)"
+      },
+      {
+        "name": "Instrument_avg_activeBeams",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_activeBeams_description",
+        "value": "Actual number of beams used for average mode"
+      },
+      {
+        "name": "Instrument_avg_averagingInterval",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_averagingInterval_description",
+        "value": "Average mode averaging interval (s)"
+      },
+      {
+        "name": "Instrument_avg_nPings",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_nPings_description",
+        "value": "Average mode number of pings per ensemble"
+      },
+      {
+        "name": "Instrument_avg_nCells",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_nCells_description",
+        "value": "Number of cells in the average mode profile"
+      },
+      {
+        "name": "Instrument_avg_nBeams",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_nBeams_description",
+        "value": "Number of configured beams for average mode (0 = PLAN,VD based)"
+      },
+      {
+        "name": "Instrument_avg_channelMapping",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_channelMapping_description",
+        "value": "Which beams are enabled in average mode (e.g. 1234 = beam 1 - 2 - 3 - 4)"
+      },
+      {
+        "name": "Instrument_avg_measurementInterval",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_measurementInterval_description",
+        "value": "Average mode measurement interval (s)"
+      },
+      {
+        "name": "Instrument_avg_format",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_format_description",
+        "value": "Average mode data record format"
+      },
+      {
+        "name": "Instrument_avg_coordSystem"
+      },
+      {
+        "name": "Instrument_avg_coordSystem_description",
+        "value": "Average mode coordinate system"
+      },
+      {
+        "name": "Instrument_avg_cellSize",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_cellSize_description",
+        "value": "Average mode cell Size (m)"
+      },
+      {
+        "name": "Instrument_avg_blankingDistance",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_blankingDistance_description",
+        "value": "Average mode distance to first cell (m)"
+      },
+      {
+        "name": "Instrument_avg_transmitPower",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_transmitPower_description",
+        "value": "Average mode transmit power level (-100 to 0) (dB)"
+      },
+      {
+        "name": "Instrument_avg_velocityRange",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_velocityRange_description",
+        "value": "Average mode velocity range along beam (m/s)"
+      },
+      {
+        "name": "Instrument_avg_velocityPrecision",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_velocityPrecision_description",
+        "value": "Average mode velocity precision"
+      },
+      {
+        "name": "Instrument_avg_bandwidth"
+      },
+      {
+        "name": "Instrument_avg_bandwidth_description",
+        "value": "Average mode bandwidth (NARROW or BROAD)"
+      },
+      {
+        "name": "Instrument_avg_powerUsage",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_powerUsage_description",
+        "value": "Power consumption for the current average mode settings (mW)"
+      },
+      {
+        "name": "Instrument_avg_memoryUsage",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_memoryUsage_description",
+        "value": "Average mode memory usage rate (MB/hr)"
+      },
+      {
+        "name": "Instrument_avg_beam2xyz_rows",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_beam2xyz_rows_description",
+        "value": "Average XYZ co-ordinate transfer matrix number of rows"
+      },
+      {
+        "name": "Instrument_avg_beam2xyz_columns",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_beam2xyz_columns_description",
+        "value": "Average XYZ co-ordinate transfer matrix number of columns"
+      },
+      {
+        "name": "Instrument_avg_beam2xyz",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_beam2xyz_description",
+        "value": "Average XYZ co-ordinate transfer matrix"
+      },
+      {
+        "name": "Instrument_avg_ice",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_ice_description",
+        "value": "Average mode enable (1) / disable (0) ice velocity measurements"
+      },
+      {
+        "name": "Instrument_avg_altiStart",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_altiStart_description",
+        "value": "Average mode start range for altitude measurement"
+      },
+      {
+        "name": "Instrument_avg_altiEnd",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_avg_altiEnd_description",
+        "value": "Average mode end range for altitude measurement"
+      },
+      {
+        "name": "Instrument_avgAltimeter_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_rawAlti",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avg_rawAlti_description",
+        "value": "Include/exclude raw altimeter data"
+      },
+      {
+        "name": "Instrument_avg_rawAltiSpacing",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_avg_rawAltiSpacing_description",
+        "value": "Add raw altimeter every 'N' avg measurement intervals"
+      },
+      {
+        "name": "Instrument_avgRawAltimeter_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_avgRawAltimeter_enable_description",
+        "value": "Enable avg raw enable data"
+      },
+      {
+        "name": "Instrument_compass_calibrationOffset",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_compass_calibrationOffset_description",
+        "value": "Compass calibration offsets"
+      },
+      {
+        "name": "Instrument_compass_calibrationMatrix",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_compass_calibrationMatrix_description",
+        "value": "Compass calibration matrix"
+      },
+      {
+        "name": "Instrument_user_HxHyHz",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_user_HxHyHz_description",
+        "value": "User magnetometer offsets"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_enable_description",
+        "value": "Enable burst raw enable data"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_nBeams",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_nBeams_description",
+        "value": "Burst raw altimeter number of beams"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_blanking",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_blanking_description",
+        "value": "Burst raw altimeter blanking distance (m)"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_cellSize",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_cellSize_description",
+        "value": "Burst raw altimeter cell size (m)"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_nSamples",
+        "type": "double"
+      },
+      {
+        "name": "Instrument_burstRawAltimeter_nSamples_description",
+        "value": "Burst raw altimeter sample count"
+      },
+      {
+        "name": "Instrument_echo_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_echo_enable_description",
+        "value": "Enable echo sounder (1/0)"
+      },
+      {
+        "name": "Instrument_pressureOffset",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_pressureOffset_description",
+        "value": "Offset to apply to pressure readings (dbar)"
+      },
+      {
+        "name": "Instrument_tmavg_en",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_tmavg_en_description",
+        "value": "Enable averaging mode telemetry"
+      },
+      {
+        "name": "Instrument_tmburst_en",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_tmburst_en_description",
+        "value": "Enable burst mode telemetry"
+      },
+      {
+        "name": "Instrument_tmbt_en",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_tmbt_en_description",
+        "value": "Enable bottom track mode telemetry"
+      },
+      {
+        "name": "Instrument_user_decl",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_user_decl_description",
+        "value": "Enable sync trigger"
+      },
+      {
+        "name": "Instrument_trig_en",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_trig_en_description",
+        "value": "Magnetic Declination (degrees)"
+      },
+      {
+        "name": "Instrument_spectrum_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_spectrum_enable_description",
+        "value": "Enable spectrum data"
+      },
+      {
+        "name": "Instrument_spectrum1_enable",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_spectrum1_enable_description",
+        "value": "Enable spectrum data"
+      },
+      {
+        "name": "Instrument_spectrum1_decimation",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_spectrum1_decimation_description",
+        "value": "Alternate configuration spectrum data decimation value"
+      },
+      {
+        "name": "Instrument_spectrum1_channelMappingCfg",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_spectrum1_channelMappingCfg_description",
+        "value": "Alternate configuration channel mapping currently in use"
+      },
+      {
+        "name": "Instrument_wave_en",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_wave_en_description",
+        "value": "Enable wave processing data"
+      },
+      {
+        "name": "Instrument_wave1_en",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_wave1_en_description",
+        "value": "Enable wave processing data"
+      },
+      {
+        "name": "Instrument_tmWave_en",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_tmWave_en_description",
+        "value": "Enable wave processing telemetry data"
+      },
+      {
+        "name": "Instrument_tmWave1_en",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_tmWave1_en_description",
+        "value": "Alternate configuration enable wave processing data"
+      },
+      {
+        "name": "Instrument_hostName"
+      },
+      {
+        "name": "Instrument_enablePTP",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_enableNTP",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_ntpPeerAddr",
+        "type": "double"
+      },
+      {
+        "name": "Instrument_fwVersionDoppler",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_fwVersionDoppler_description",
+        "value": "Doppler firmware version"
+      },
+      {
+        "name": "Instrument_fpgaVersionDoppler",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_fpgaVersionDoppler_description"
+      },
+      {
+        "name": "Instrument_digitalBoard"
+      },
+      {
+        "name": "Instrument_digitalBoard_description",
+        "value": "Digital board version"
+      },
+      {
+        "name": "Instrument_ifaceBoard"
+      },
+      {
+        "name": "Instrument_ifaceBoard_description",
+        "value": "Interface board version"
+      },
+      {
+        "name": "Instrument_analogBoard"
+      },
+      {
+        "name": "Instrument_analogBoard_description",
+        "value": "Analog board version"
+      },
+      {
+        "name": "Instrument_sensorBoard"
+      },
+      {
+        "name": "Instrument_sensorBoard_description",
+        "value": "Sensor board version"
+      },
+      {
+        "name": "Instrument_serialNumberDoppler",
+        "type": "double"
+      },
+      {
+        "name": "Instrument_instrumentName"
+      },
+      {
+        "name": "Instrument_maxBeams",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_maxBeams_description",
+        "value": "Number of transducers"
+      },
+      {
+        "name": "Instrument_bootloader"
+      },
+      {
+        "name": "Instrument_bootloader_description",
+        "value": "Doppler bootloader version"
+      },
+      {
+        "name": "Instrument_fwMinorVersionDoppler",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_fwMinorVersionDoppler_description",
+        "value": "Doppler firmware minor version"
+      },
+      {
+        "name": "Instrument_analogBoard2"
+      },
+      {
+        "name": "Instrument_analogBoard2_description",
+        "value": "Analog board 2 version"
+      },
+      {
+        "name": "Instrument_headFrequency",
+        "type": "int"
+      },
+      {
+        "name": "Instrument_headFrequency_description",
+        "value": "Head Frequency (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_board",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_hwbeam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_theta",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_theta_description",
+        "value": "Theta angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_phi",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_phi_description",
+        "value": "Phi angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_frequency",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_frequency_description",
+        "value": "Center Frequency (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_bandwidth",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_bandwidth_description",
+        "value": "Bandwidth (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_znominal",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration1_znominal_description",
+        "value": "Nominal transducer impedance (ohms)"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_board",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_hwbeam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_theta",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_theta_description",
+        "value": "Theta angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_phi",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_phi_description",
+        "value": "Phi angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_frequency",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_frequency_description",
+        "value": "Center Frequency (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_bandwidth",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_bandwidth_description",
+        "value": "Bandwidth (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_znominal",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration2_znominal_description",
+        "value": "Nominal transducer impedance (ohms)"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_board",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_hwbeam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_theta",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_theta_description",
+        "value": "Theta angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_phi",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_phi_description",
+        "value": "Phi angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_frequency",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_frequency_description",
+        "value": "Center Frequency (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_bandwidth",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_bandwidth_description",
+        "value": "Bandwidth (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_znominal",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration3_znominal_description",
+        "value": "Nominal transducer impedance (ohms)"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_board",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_hwbeam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_theta",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_theta_description",
+        "value": "Theta angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_phi",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_phi_description",
+        "value": "Phi angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_frequency",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_frequency_description",
+        "value": "Center Frequency (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_bandwidth",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_bandwidth_description",
+        "value": "Bandwidth (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_znominal",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration4_znominal_description",
+        "value": "Nominal transducer impedance (ohms)"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_board",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_hwbeam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_theta",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_theta_description",
+        "value": "Theta angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_phi",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_phi_description",
+        "value": "Phi angle (degrees)"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_frequency",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_frequency_description",
+        "value": "Center Frequency (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_bandwidth",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_bandwidth_description",
+        "value": "Bandwidth (kHz)"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_znominal",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamConfiguration5_znominal_description",
+        "value": "Nominal transducer impedance (ohms)"
+      },
+      {
+        "name": "Instrument_beamImplementation1_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamImplementation1_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P0",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P0_description",
+        "value": "Polynomial coefficient 0"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P1",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P1_description",
+        "value": "Polynomial coefficient 1"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P2",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P2_description",
+        "value": "Polynomial coefficient 2"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P3",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P3_description",
+        "value": "Polynomial coefficient 3"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P4",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation1_P4_description",
+        "value": "Polynomial coefficient 4"
+      },
+      {
+        "name": "Instrument_beamImplementation1_temperature",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation1_temperature_description",
+        "value": "Temperature (Celsius)"
+      },
+      {
+        "name": "Instrument_beamImplementation2_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamImplementation2_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P0",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P0_description",
+        "value": "Polynomial coefficient 0"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P1",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P1_description",
+        "value": "Polynomial coefficient 1"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P2",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P2_description",
+        "value": "Polynomial coefficient 2"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P3",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P3_description",
+        "value": "Polynomial coefficient 3"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P4",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation2_P4_description",
+        "value": "Polynomial coefficient 4"
+      },
+      {
+        "name": "Instrument_beamImplementation2_temperature",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation2_temperature_description",
+        "value": "Temperature (Celsius)"
+      },
+      {
+        "name": "Instrument_beamImplementation3_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamImplementation3_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P0",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P0_description",
+        "value": "Polynomial coefficient 0"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P1",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P1_description",
+        "value": "Polynomial coefficient 1"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P2",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P2_description",
+        "value": "Polynomial coefficient 2"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P3",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P3_description",
+        "value": "Polynomial coefficient 3"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P4",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation3_P4_description",
+        "value": "Polynomial coefficient 4"
+      },
+      {
+        "name": "Instrument_beamImplementation3_temperature",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation3_temperature_description",
+        "value": "Temperature (Celsius)"
+      },
+      {
+        "name": "Instrument_beamImplementation4_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamImplementation4_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P0",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P0_description",
+        "value": "Polynomial coefficient 0"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P1",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P1_description",
+        "value": "Polynomial coefficient 1"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P2",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P2_description",
+        "value": "Polynomial coefficient 2"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P3",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P3_description",
+        "value": "Polynomial coefficient 3"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P4",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation4_P4_description",
+        "value": "Polynomial coefficient 4"
+      },
+      {
+        "name": "Instrument_beamImplementation4_temperature",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation4_temperature_description",
+        "value": "Temperature (Celsius)"
+      },
+      {
+        "name": "Instrument_beamImplementation5_beam",
+        "type": "short"
+      },
+      {
+        "name": "Instrument_beamImplementation5_beam_description",
+        "value": "Beam number"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P0",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P0_description",
+        "value": "Polynomial coefficient 0"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P1",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P1_description",
+        "value": "Polynomial coefficient 1"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P2",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P2_description",
+        "value": "Polynomial coefficient 2"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P3",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P3_description",
+        "value": "Polynomial coefficient 3"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P4",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation5_P4_description",
+        "value": "Polynomial coefficient 4"
+      },
+      {
+        "name": "Instrument_beamImplementation5_temperature",
+        "type": "float"
+      },
+      {
+        "name": "Instrument_beamImplementation5_temperature_description",
+        "value": "Temperature (Celsius)"
+      },
+      {
+        "name": "Instrument_rawConfiguration"
+	  },
+      {
+        "name": "Instrument_rawConfiguration_description",
+        "value": "Raw instrument configuration string"
+      },
+      {
+        "name": "fileName"
+      },
+      {
+        "name": "fileName_description",
+        "value": "Original file name"
+      },
+      {
+        "name": "rawFileName"
+      },
+      {
+        "name": "rawFileName_description",
+        "value": "Raw data file name"
+      },
+      {
+        "name": "appVersion"
+      },
+      {
+        "name": "appVersion_description",
+        "value": "Software application version"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_skipped",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_skipped_description",
+        "value": "No transforms / corrections applied"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_binMapping",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_binMapping_description",
+        "value": "Bin mapping applied"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addBeam",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addBeam_description",
+        "value": "Beam coordinates added"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addXYZ",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addXYZ_description",
+        "value": "XYZ coordinates added"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addXYZSpeed",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addXYZSpeed_description",
+        "value": "XYZ speed added"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addENU",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addENU_description",
+        "value": "ENU coordinates added"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addENUSpeed",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_addENUSpeed_description",
+        "value": "ENU speed added"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_recalCompass",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_recalCompass_description",
+        "value": "Compass heading re-calibrated"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_recalDataStartTime",
+        "type": "double"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_recalDataStartTime_description",
+        "value": "Compass heading re-calibration data start time"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_recalDataEndTime",
+        "type": "double"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_recalDataEndTime_description",
+        "value": "Compass heading re-calibration data end time"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_subsurfaceDepthCorrection",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_subsurfaceDepthCorrection_description",
+        "value": "Subsurface mount depth correction (m)"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_pressureOffset",
+        "type": "float"
+
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_pressureOffset_description",
+        "value": "Surface pressure offset correction (dB)"
+      },
+      {
+        "name": "DataInfo_beamFrequencies",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_beamFrequencies_description",
+        "value": "Transmit frequency for each beam (kHz)"
+      },
+      {
+        "name": "DataInfo_slantAngles",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_slantAngles_description",
+        "value": "Slant angle for each beam (degrees)"
+      },
+      {
+        "name": "DataInfo_nBeams",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_nBeams_description",
+        "value": "Number of beams in system"
+      },
+      {
+        "name": "DataInfo_average_data",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_average_data_description",
+        "value": "A value of 1 indicates that this data has been averaged"
+      },
+      {
+        "name": "DataInfo_echo_subsurfaceDepthCorrection",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_echo_subsurfaceDepthCorrection_description",
+        "value": "Subsurface mount depth correction"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_magneticDeclination",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_transformsAndCorrections_magneticDeclination_description",
+        "value": "Compass magnetic declination correction"
+      },
+      {
+        "name": "DataInfo_waves_processing",
+        "value": "MLMST"
+      },
+      {
+        "name": "DataInfo_waves_processing_description",
+        "value": "Processing mode"
+      },
+      {
+        "name": "DataInfo_waves_mountHeight",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_waves_mountHeight_description",
+        "value": "Mount height (m)"
+      },
+      {
+        "name": "DataInfo_waves_bandSeparationFrequency",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_waves_bandSeparationFrequency_description",
+        "value": "Band separation frequency (Hz)"
+      },
+      {
+        "name": "DataInfo_waves_startFrequency",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_waves_startFrequency_description",
+        "value": "Start frequency of the non-directional (energy) spectra (Hz)"
+      },
+      {
+        "name": "DataInfo_waves_endFrequency",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_waves_endFrequency_description",
+        "value": "End frequency of the non-directional (energy) spectra (Hz)"
+      },
+      {
+        "name": "DataInfo_waves_stepFrequency",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_waves_stepFrequency_description",
+        "value": "Frequency step between start and end of the non-directional (energy) spectra (Hz)"
+      },
+      {
+        "name": "DataInfo_waves_frequencySmoothing",
+        "type": "int"
+      },
+      {
+        "name": "DataInfo_waves_frequencySmoothing_description",
+        "value": "Averaging used at each of the discrete frequencies of the spectra"
+      },
+      {
+        "name": "DataInfo_waves_directionSmoothing",
+        "type": "int"
+      },
+      {
+        "name": "DataInfo_waves_directionSmoothing_description",
+        "value": "Averaging used at each of the discrete direction"
+      },
+      {
+        "name": "DataInfo_waves_version",
+        "value": ""
+      },
+      {
+        "name": "DataInfo_waves_version_description",
+        "value": "Waves processing library version"
+      },
+      {
+        "name": "DataInfo_waves_ASTMethod",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_waves_ASTMethod_description",
+        "value": "Waves AST method (0 - max peak: 1 - leading edge)"
+      },
+      {
+        "name": "DataInfo_waves_cellMinDepth",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_waves_cellMinDepth_description",
+        "value": "Target cell minimum depth (%)"
+      },
+      {
+        "name": "DataInfo_waves_maxAmbiguityFrequency",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_waves_maxAmbiguityFrequency_description",
+        "value": "Maximum ambiguity frequency (Hz)"
+      },
+      {
+        "name": "DataInfo_waves_backupSpectra",
+        "type": "short"
+      },
+      {
+        "name": "DataInfo_waves_backupSpectra_description",
+        "value": "Spectra used to calculate wave parameters when AST is not available / fails: 0 - Pressure, 1: Velocity 2: Optimized 3: AST only"
+      },
+      {
+        "name": "DataInfo_pressure_min",
+        "type": "double"
+      },
+      {
+        "name": "DataInfo_pressure_min_description",
+        "value": "Minimum pressure (after maximum reached) for this data file (dbar)"
+      },
+      {
+        "name": "DataInfo_pressure_max",
+        "type": "double"
+      },
+      {
+        "name": "DataInfo_pressure_max_description",
+        "value": "Maximum pressure for this data file (dbar)"
+      },
+      {
+        "name": "DataInfo_fixedSpeedOfSound",
+        "type": "float"
+      },
+      {
+        "name": "DataInfo_fixedSpeedOfSound_description",
+        "value": "Speed of sound during data collection (0 if measured) (m/s)"
+      }
+    ]
+}

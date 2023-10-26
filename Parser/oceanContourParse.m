@@ -36,6 +36,20 @@ if inexistent_file
     errormsg('file %s doesn''t exist', filename)
 end
 
+% returns cell array
 sample_data = OceanContour.readOceanContourFile(filename);
+
+[filePath, fileRadName, ~] = fileparts(filename);
+waveFile = fullfile(filePath, [fileRadName '_waves.nc']);
+isWaveData = exist(filename, 'file') && exist(waveFile, 'file');
+
+if isWaveData
+%       % turn sample data into a cell array
+%       temp{1} = sample_data;
+%       sample_data = temp;
+%       clear temp;
+      
+      sample_data = [sample_data, OceanContourWaves.readOceanContourFile(waveFile)];
+end
 
 end

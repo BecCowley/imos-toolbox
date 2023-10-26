@@ -1,0 +1,396 @@
+{
+	"mapping": [
+		{
+			"name": "time",
+			"imos_name": "TIME"
+		},
+		{
+			"name": "Status_Missing_Data",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_No_Pressure",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Low_Pressure",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Amplitude",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_White_Noise",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Unreasonable_Estimate",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Never_Processed",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_AST_Out_Of_Bounds",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Direction_Ambiguity",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Pressure_Peak",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Close_to_Clip",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_AST_Loss_High",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_High_Tilt",
+			"imos_name": ""
+		},
+		{
+			"name": "Status_Correlation",
+			"imos_name": ""
+		},
+		{
+			"name": "TargetCell",
+			"imos_name": ""
+		},
+		{
+			"name": "SpectrumType",
+			"imos_name": ""
+		},
+		{
+			"name": "SurfaceDetection_None",
+			"imos_name": ""
+		},
+		{
+			"name": "SurfaceDetection_Bad",
+			"imos_name": ""
+		},
+		{
+			"name": "FrequencyAmbiguityLimit",
+			"imos_name": ""
+		},
+		{
+			"name": "ProcessingTime",
+			"imos_name": ""
+		},
+		{
+			"name": "ZeroCrossings",
+			"imos_name": ""
+		},
+		{
+			"name": "Period_Tm02",
+			"imos_name": "WPSM"
+		},
+		{
+			"name": "Period_Tp",
+			"imos_name": "WPPE"
+		},
+		{
+			"name": "Period_Tenergy",
+			"imos_name": ""
+		},
+		{
+			"name": "Period_Tmax",
+			"imos_name": "WMPP"
+		},
+		{
+			"name": "Period_Tz",
+			"imos_name": "WPMH"
+		},
+		{
+			"name": "Period_T10",
+			"imos_name": "WPTE"
+		},
+		{
+			"name": "Period_T3",
+			"imos_name": ""
+		},
+		{
+			"name": "Height_Hm0",
+			"imos_name": "WSSH"
+		},
+		{
+			"name": "Height_Hmax",
+			"imos_name": "WMXH"
+		},
+		{
+			"name": "Height_H10",
+			"imos_name": "WHTE"
+		},
+		{
+			"name": "Height_H3",
+			"imos_name": ""
+		},
+		{
+			"name": "Height_Hmean",
+			"imos_name": "WMSH"
+		},
+		{
+			"name": "Direction_DirTp",
+			"imos_name": "WPDI"
+		},
+		{
+			"name": "Direction_SprTp",
+			"imos_name": ""
+		},
+		{
+			"name": "Direction_MeanDir",
+			"imos_name": "WWDS"
+		},
+		{
+			"name": "UnidirectivityIndex",
+			"imos_name": ""
+		},
+		{
+			"name": "CurrentSpeed",
+			"imos_name": ""
+		},
+		{
+			"name": "CurrentDirection",
+			"imos_name": ""
+		},
+		{
+			"name": "Pressure",
+			"imos_name": ""
+		},
+		{
+			"name": "Distance",
+			"imos_name": ""
+		},
+		{
+			"name": "WaveCellPosition",
+			"imos_name": ""
+		},
+		{
+			"name": "ASTWindow_Floor",
+			"imos_name": ""
+		},
+		{
+			"name": "ASTWindow_Ceiling",
+			"imos_name": ""
+		},
+		{
+			"name": "Temperature",
+			"imos_name": "TEMP"
+		},
+		{
+			"name": "Battery_Voltage",
+			"imos_name": "BAT_VOLT"
+		},
+		{
+			"name": "Heading",
+			"imos_name": "HEADING"
+		},
+		{
+			"name": "Tilt_Pitch",
+			"imos_name": "PITCH"
+		},
+		{
+			"name": "Tilt_Roll",
+			"imos_name": "ROLL"
+		},
+		{
+			"name": "BandSpectrumType_Lower",
+			"imos_name": ""
+		},
+		{
+			"name": "BandSpectrumType_Upper",
+			"imos_name": ""
+		},
+		{
+			"name": "BandError_Lower",
+			"imos_name": ""
+		},
+		{
+			"name": "BandError_Upper",
+			"imos_name": ""
+		},
+		{
+			"name": "BandFrequency_L_Low",
+			"imos_name": ""
+		},
+		{
+			"name": "BandFrequency_L_High",
+			"imos_name": ""
+		},
+		{
+			"name": "BandFrequency_U_Low",
+			"imos_name": ""
+		},
+		{
+			"name": "BandFrequency_U_High",
+			"imos_name": ""
+		},
+		{
+			"name": "BandHeight_L_Hm0",
+			"imos_name": ""
+		},
+		{
+			"name": "BandHeight_U_Hm0",
+			"imos_name": ""
+		},
+		{
+			"name": "BandPeriod_L_Tm02",
+			"imos_name": ""
+		},
+		{
+			"name": "BandPeriod_L_Tp",
+			"imos_name": ""
+		},
+		{
+			"name": "BandPeriod_U_Tm02",
+			"imos_name": ""
+		},
+		{
+			"name": "BandPeriod_U_Tp",
+			"imos_name": ""
+		},
+		{
+			"name": "BandDirection_L_DirTp",
+			"imos_name": ""
+		},
+		{
+			"name": "BandDirection_L_DirMean",
+			"imos_name": ""
+		},
+		{
+			"name": "BandDirection_L_SprTp",
+			"imos_name": ""
+		},
+		{
+			"name": "BandDirection_U_DirTp",
+			"imos_name": ""
+		},
+		{
+			"name": "BandDirection_U_DirMean",
+			"imos_name": ""
+		},
+		{
+			"name": "BandDirection_U_SprTp",
+			"imos_name": ""
+		},
+		{
+			"name": "EnergySpectra_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "EnergySpectra",
+			"imos_name": ""
+		},
+		{
+			"name": "FrequencyDiagram_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "FrequencyDiagram",
+			"imos_name": ""
+		},
+		{
+			"name": "FourierCoefficients_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "FourierCoefficients_A1",
+			"imos_name": ""
+		},
+		{
+			"name": "FourierCoefficients_B1",
+			"imos_name": ""
+		},
+		{
+			"name": "FourierCoefficients_A2",
+			"imos_name": ""
+		},
+		{
+			"name": "FourierCoefficients_B2",
+			"imos_name": ""
+		},
+		{
+			"name": "WaveSpectra_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "WaveSpectra_Vel",
+			"imos_name": ""
+		},
+		{
+			"name": "WaveSpectra_Pressure",
+			"imos_name": ""
+		},
+		{
+			"name": "WaveSpectra_AST",
+			"imos_name": ""
+		},
+		{
+			"name": "DirectionalSpectra_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "Direction",
+			"imos_name": ""
+		},
+		{
+			"name": "DirectionalSpectra_Spread",
+			"imos_name": ""
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Direction",
+			"imos_name": ""
+		},
+		{
+			"name": "FullWaveDirectionalSpectra_Energy",
+			"imos_name": ""
+		},
+		{
+			"name": "ASTSpectra_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "ASTSpectra_Direction",
+			"imos_name": ""
+		},
+		{
+			"name": "ASTSpectra_Energy",
+			"imos_name": ""
+		},
+		{
+			"name": "PressureSpectra_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "PressureSpectra_Direction",
+			"imos_name": ""
+		},
+		{
+			"name": "PressureSpectra_Energy",
+			"imos_name": ""
+		},
+		{
+			"name": "VelocitySpectra_Frequency",
+			"imos_name": ""
+		},
+		{
+			"name": "VelocitySpectra_Direction",
+			"imos_name": ""
+		},
+		{
+			"name": "VelocitySpectra_Energy",
+			"imos_name": ""
+		}
+	]
+}

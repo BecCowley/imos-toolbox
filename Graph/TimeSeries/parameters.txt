@@ -44,3 +44,23 @@ SSWD,      TimeFrequency
 SSWD_MAG,  TimeFrequency
 SSWV,      TimeFrequencyDirection
 SSWV_MAG,  TimeFrequencyDirection
+IRRADIANCE,  TimeWavelength
+RADIANCE,  TimeWavelength
+MULTISPEC,  TimeWavelength
+%
+EnergySpectra, TimeFrequency
+FrequencyDiagram, TimeFrequency
+FourierCoefficients_A1, TimeFrequency
+FourierCoefficients_B1, TimeFrequency
+FourierCoefficients_A2, TimeFrequency
+FourierCoefficients_B2, TimeFrequency
+WaveSpectra_Vel, TimeFrequency
+WaveSpectra_Pressure, TimeFrequency
+WaveSpectra_AST, TimeFrequency
+Direction, TimeFrequency
+DirectionalSpectra_Spread, TimeFrequency
+% unknown 3d 
+FullWaveDirectionalSpectra_Energy, TimeFrequencyDirection
+ASTSpectra_Energy, TimeFrequencyDirection
+PressureSpectra_Energy, TimeFrequencyDirection
+VelocitySpectra_Energy, TimeFrequencyDirection

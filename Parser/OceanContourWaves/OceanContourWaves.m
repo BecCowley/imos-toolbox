@@ -680,7 +680,6 @@ classdef OceanContourWaves
                 dataset.meta = meta;
                 
                 % add dimensions with their data
-                %wave_dim_names = [wave_dim_names 'LATITUDE' 'LONGITUDE' ];
                 nDims = numel(wave_dim_names);
                 dataset.dimensions = cell(nDims, 1);
                 for i=1:nDims
@@ -733,7 +732,7 @@ classdef OceanContourWaves
                 dataset.variables{4}.data = NaN;
                 dataset.variables{4}.typeCastFunc =  str2func('double');
                 
-                for i=4:nVars
+                for i=5:nVars
 
                     vname = var_names{i-3};
                     idx = strcmp(vname, known_var_names);
@@ -761,7 +760,7 @@ classdef OceanContourWaves
                     
                     if numel(dim_ind) == 1
                         dataset.variables{i}.data = dataset.variables{i}.typeCastFunc(get_var(vname));
-                    else
+                    elseif numel(dim_ind) == 2
                         % Some variables have dimension order list with time at the end eg "EnergySpectra_Frequency time"
                         % I don't know if this also would happen in mat
                         % export
@@ -771,6 +770,13 @@ classdef OceanContourWaves
                         else
                             dataset.variables{i}.data = permute(dataset.variables{i}.typeCastFunc(get_var(vname)), numel(dim_ind):-1:1);
                         end
+                    elseif numel(dim_ind) == 3
+                        % "shape": "time PressureSpectra_Direction PressureSpectra_Frequency"
+                        % want "time PressureSpectra_Frequency PressureSpectra_Direction"
+                        dataset.variables{i}.dimensions = dim_ind([1 3 2]);
+                        dataset.variables{i}.data = permute(dataset.variables{i}.typeCastFunc(get_var(vname)), [3 1 2]);
+                    else 
+                        error(['Multidimensional data not handled : ' vname]);
                     end
                     dataset.variables{i}.coordinates = 'TIME LATITUDE LONGITUDE';
                     % get variable description and save as comment

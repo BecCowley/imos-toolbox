@@ -680,13 +680,19 @@ classdef OceanContourWaves
                 dataset.meta = meta;
                 
                 % add dimensions with their data
+                %wave_dim_names = [wave_dim_names 'LATITUDE' 'LONGITUDE' ];
                 nDims = numel(wave_dim_names);
                 dataset.dimensions = cell(nDims, 1);
                 for i=1:nDims
                     dname = wave_dim_names{i};
-                    imos_name = OceanContourWaves.get_imos_mapped_name(dname, var_map, custom_magnetic_declination);
-                    dataset.dimensions{i}.name         = imos_name;
+                    try
+                        imos_name = OceanContourWaves.get_imos_mapped_name(dname, var_map, custom_magnetic_declination);
+                    catch
+                        imos_name = dname;
+                    end
                     dataset.dimensions{i}.typeCastFunc = str2func(netcdf3ToMatlabType(imosParameters(imos_name, 'type')));
+                    dataset.dimensions{i}.name         = imos_name;
+                    %dataset.dimensions{i}.typeCastFunc = str2func(netcdf3ToMatlabType(imosParameters(imos_name, 'type')));
                     if strcmpi(dname, 'TIME')
                         % TODO: find code that handles cftime conventions
                         % until then assume it will always be
@@ -713,12 +719,19 @@ classdef OceanContourWaves
                 dataset.variables{1}.name = 'TIMESERIES';
                 dataset.variables{1}.dimensions = [];
                 dataset.variables{1}.data = 1;
+                dataset.variables{1}.typeCastFunc =  str2func('int32');
                 dataset.variables{2}.name = 'LATITUDE';
                 dataset.variables{2}.dimensions = [];
                 dataset.variables{2}.data = NaN;
+                dataset.variables{2}.typeCastFunc =  str2func('double');
                 dataset.variables{3}.name = 'LONGITUDE';
                 dataset.variables{3}.dimensions = [];
                 dataset.variables{3}.data = NaN;
+                dataset.variables{3}.typeCastFunc =  str2func('double');
+                dataset.variables{4}.name = 'NOMINAL_DEPTH';
+                dataset.variables{4}.dimensions = [];
+                dataset.variables{4}.data = NaN;
+                dataset.variables{4}.typeCastFunc =  str2func('double');
                 
                 for i=4:nVars
 

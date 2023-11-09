@@ -586,7 +586,8 @@ switch lower(ext)
         acquisitionMode = acquisitionMode(1, :);
 
     case '.nc'
-        sample_data = OceanContour.readOceanContourFile(filename);
+        % sample_data = OceanContour.readOceanContourFile(filename);
+		sample_data = oceanContourParse({filename}, tMode);
         return;
         
     otherwise

@@ -1,4 +1,4 @@
-function [sample_data] = oceanContourParser(filename_in_cell, toolbox_mode)
+function sample_data = oceanContourParse(filename_in_cell, toolbox_mode)
 % function [data] = oceanContourParser(filename_in_cell, toolbox_mode)
 %
 % The OceanContour Parser for netcdf or mat files.

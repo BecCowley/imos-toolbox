@@ -731,7 +731,7 @@ classdef OceanContour
                 meta.(mode_sampling_duration_str) = get_att(mode_sampling_duration_str);
 
                 time = get_var('TIME');
-                time_cftime = nc_get_var(gid, 'time')/86400.0 + datenum(1970,1,1,0,0,0);
+                time_cftime = nc_get_var(gid, 'time')/86400.0 + datenum(1970,1,1,0,0,0); %"seconds since 1970-01-01T00:00:00 UTC";
                 
                 try
                     actual_sample_interval = single(mode(diff(time)) * 86400.);

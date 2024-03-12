@@ -169,9 +169,19 @@ classdef OceanContourWaves
             attmap.('converted_to_enu') = 'DataInfo_transformsAndCorrections_addENU';
             
             % while this might be a waves file, some info is 'avg' prefix
-            avg_group_name = 'avg';
-            attmap.('nBeams') = OceanContourWaves.build_instrument_name(avg_group_name, 'nBeams');
-            attmap.('activeBeams') = OceanContourWaves.build_instrument_name(avg_group_name, 'activeBeams'); %no previous name
+            if isfield(file_metadata, 'Instrument_avg_enable') & logical(file_metadata.Instrument_avg_enable)
+                inst_data_name = 'avg';
+            else
+                inst_data_name = 'burst';
+            end
+            has_data_been_averaged = false;
+            if isfield(file_metadata, 'DataInfo_average_data') & logical(file_metadata.DataInfo_average_data)
+                has_data_been_averaged = true;
+            end
+
+            attmap.('nBeams') = 'DataInfo_nBeams';
+            %attmap.('nBeams') = OceanContourWaves.build_instrument_name(avg_group_name, 'nBeams');
+            attmap.('activeBeams') = OceanContourWaves.build_instrument_name(inst_data_name, 'activeBeams'); %no previous name
             attmap.('magDec_User') = 'Instrument_user_decl';
             attmap.('magDec_DataInfo') = 'DataInfo_transformsAndCorrections_magneticDeclination';
             attmap.('binMapping') = 'DataInfo_transformsAndCorrections_binMapping';
@@ -180,13 +190,13 @@ classdef OceanContourWaves
             if strcmpi(ftype, 'mat') || strcmpi(ftype, 'netcdf')
                 try
                     attmap.('instrument_serial_no') = 'Instrument_serialNumberDoppler';
-                    attmap.('binSize') = OceanContourWaves.build_instrument_name(avg_group_name, 'cellSize');
+                    attmap.('binSize') = OceanContourWaves.build_instrument_name(inst_data_name, 'cellSize');
                 catch
                 end
             end
             
             %custom & dynamical fields
-            attmap.(['instrument_' meta_attr_midname '_enable']) = OceanContourWaves.build_instrument_name(avg_group_name, 'enable');
+            attmap.(['instrument_' meta_attr_midname '_enable']) = OceanContourWaves.build_instrument_name(inst_data_name, 'enable');
             
             switch meta_attr_midname
                 case 'avg'
@@ -205,7 +215,7 @@ classdef OceanContourWaves
                     attmap.('instrument_sample_interval') = OceanContourWaves.build_instrument_name('burst', 'measurementInterval');
                     attmap.('nSamples') = OceanContourWaves.build_instrument_name('burst', 'nSamples');
                     attmap.('sampleRate') = OceanContourWaves.build_instrument_name('burst', 'sampleRate');
-                    attmap.('coordinate_system') = OceanContourWaves.build_instrument_name('avg', 'coordSystem');
+                    attmap.('coordinate_system') = OceanContourWaves.build_instrument_name(inst_data_name, 'coordSystem');
             end
             
         end
@@ -342,10 +352,8 @@ classdef OceanContourWaves
             varmap.('TRANSMIT_E') = 'TransmitEnergy';
             varmap.('NOMINAL_CORR') = 'NominalCor';
             
-            
         end
         
-       
         function imos_name = get_imos_mapped_name(var_name, var_map, mag_dec)
             % TODO: if a directional variable has not undergone
             % magnetic declination append '_MAG', but is it the variable
@@ -490,7 +498,17 @@ classdef OceanContourWaves
             
             known_var_names = {json_varwaves.variables.name};
             wave_dim_names = {json_varwaves.dimensions.name};
-                
+            
+            % Check for some indication that this is a waves file            
+            % typically DataInfo_waves_processing is set to the processing 
+            % method e.g. "MLMST";
+            % TODO: what is this field set to if waves processed onboard
+            % instrument?
+            is_waves = isfield(file_metadata, 'DataInfo_waves_processing') & ~isempty(file_metadata.DataInfo_waves_processing);
+            if ~is_waves
+                error('OceanContourWaves: wave_file not recognized.')
+            end
+            
             % TODO: merge into OceanContour.m to parse either avg or burst
             % file. At the moment this is waves only.
             for k = 1:n_datasets
@@ -518,17 +536,15 @@ classdef OceanContourWaves
                 
                 meta.nBeams = min(nBeams, activeBeams);
                 
-                %                 try
-                %                     assert(meta.nBeams == 4);
-                %                     %TODO: support variable nBeams. need more files.
-                %                 catch
-                %                     errormsg('Only 4 Beam ADCP are supported. %s got %d nBeams', filename, meta.nBeams)
-                %                 end
-                
                 magDec_User = get_att('magDec_User');
-                magDec_DataInfo = get_att('magDec_DataInfo');
                 has_magdec_user = logical(magDec_User);
-                has_magdec_oceancontour = logical(magDec_DataInfo);
+                try
+                    magDec_DataInfo = get_att('magDec_DataInfo');
+                    has_magdec_oceancontour = logical(magDec_DataInfo);
+                catch
+                    magDec_DataInfo = NaN;
+                    has_magdec_oceancontour = false;
+                end
                 meta.magDec = 0.0;
                 custom_magnetic_declination = has_magdec_user | has_magdec_oceancontour;
                 if has_magdec_oceancontour
@@ -551,13 +567,12 @@ classdef OceanContourWaves
                     binmapped = false;
                 end
                 
-               
-                %subset the global metadata fields to only the respective group.
+                % subset the global metadata fields to only the respective group.
                 dataset_meta_id = ['_' meta_attr_midname '_'];
                 [~, other_datasets_meta_names] = filterFields(file_metadata, dataset_meta_id);
                 dataset_meta = rmfield(file_metadata, other_datasets_meta_names);
                 
-                %load extra metadata and unify the variable access pattern into
+                % load extra metadata and unify the variable access pattern into
                 % the same function name.
                 if is_netcdf
                     meta.dim_meta = data_metadata.(group_name).Dimensions;
@@ -604,10 +619,12 @@ classdef OceanContourWaves
                 default_beam_angle = OceanContourWaves.beam_angles.(meta.instrument_model);
                 instrument_beam_angles = single(get_att('beam_angle'));
                 try
-                    %the attribute may contain 5 beams (e.g. wave).
+                    %the attribute may contain 5 beams (e.g. AST for waves).
+                    % TODO: workaround for inconsistent beam_angles. need more files.
+                    % At the moment just assume the first nBeams-1 are for 
+                    % velocity calculation
                     dataset_beam_angles = instrument_beam_angles(1:meta.nBeams);
-                    assert(isequal(unique(dataset_beam_angles), default_beam_angle))
-                    %TODO: workaround for inconsistent beam_angles. need more files.
+                    assert(isequal(unique(dataset_beam_angles(1:meta.nBeams-1)), default_beam_angle))
                 catch
                     errormsg('Inconsistent beam angle/Instrument information in %s', filename)
                 end
@@ -619,7 +636,7 @@ classdef OceanContourWaves
                 %meta.(mode_sampling_duration_str) = get_att(mode_sampling_duration_str);
                 % for waves
                 meta.('instrument_sampling_duration') = get_att('nSamples') / get_att('sampleRate');
-                time = get_var('time')/86400.0 + datenum(1970, 1, 1, 0, 0, 0); %"seconds since 1970-01-01T00:00:00 UTC";
+                time = get_var('time')/86400.0 + datenum(1970, 1, 1, 0, 0, 0); % "seconds since 1970-01-01T00:00:00 UTC";
                 
                 try
                     actual_sample_interval = single(mode(diff(time)) * 86400.);
@@ -630,19 +647,30 @@ classdef OceanContourWaves
                     meta.('instrument_sample_interval') = actual_sample_interval;
                 end
                 
-                coordinate_system = get_att('coordinate_system');
-                switch coordinate_system
-                    case 'XYZ'
-                        if logical(get_att('converted_to_enu'))
+                % if waves data force to ENU?
+                if is_waves
+                    meta.coordinate_system = 'ENU';
+                else
+                    coordinate_system = get_att('coordinate_system');
+                    switch coordinate_system
+                        case 'BEAM'
+                            if logical(get_att('converted_to_enu'))
+                                meta.coordinate_system = 'ENU';
+                            else
+                                errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
+                            end
+                        case 'XYZ'
+                            if logical(get_att('converted_to_enu'))
+                                meta.coordinate_system = 'ENU';
+                            else
+                                errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
+                            end
+                        case 'ENU'
                             meta.coordinate_system = 'ENU';
-                        else
+                            % OK
+                        otherwise
                             errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
-                        end
-                    case 'ENU'
-                        meta.coordinate_system = 'ENU';
-                        % OK
-                    otherwise
-                        errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
+                    end
                 end
                 
                 %                 z = get_var('HEIGHT_ABOVE_SENSOR');

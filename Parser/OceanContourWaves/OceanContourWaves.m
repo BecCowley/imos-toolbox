@@ -467,6 +467,7 @@ classdef OceanContourWaves
                 data_metadata = nc_flat(info.Groups(2).Groups, false);
                 
                 ncid = netcdf.open(filename);
+                c = onCleanup(@()netcdf.close(ncid));
                 root_groups = netcdf.inqGrps(ncid);
                 data_group = root_groups(2);
                 

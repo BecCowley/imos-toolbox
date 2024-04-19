@@ -467,7 +467,8 @@ classdef OceanContourWaves
                 data_metadata = nc_flat(info.Groups(2).Groups, false);
                 
                 ncid = netcdf.open(filename);
-                c = onCleanup(@()netcdf.close(ncid));
+                %c = onCleanup(@(ncid)netcdf.close(ncid));
+                %c = onCleanup(@(ncid)onCleanup_close_netcdf(ncid));
                 root_groups = netcdf.inqGrps(ncid);
                 data_group = root_groups(2);
                 
@@ -818,11 +819,16 @@ classdef OceanContourWaves
                         end
                     end
                     % get units and save if valid
+                    imos_uom = imosParameters(dataset.variables{i}.name, 'uom');
+                    if imos_uom ~= '?'
+                        dataset.variables{i}.units = imos_uom;
+                    else
                     [tf, ind] = inCell(attr_names, 'units');
-                    if tf
-                        attr = vstruct.attribute{ind};
-                        if ~isempty(attr.value) && ~strcmp(attr.value, '?')
-                            dataset.variables{i}.units = attr.value;
+                        if tf
+                            attr = vstruct.attribute{ind};
+                            if ~isempty(attr.value) && ~strcmp(attr.value, '?')
+                                dataset.variables{i}.units = attr.value;
+                            end
                         end
                     end
                     %                   if strcmpi(dims{i, 1}, 'DIR')
@@ -841,4 +847,10 @@ classdef OceanContourWaves
         
     end
     
+end
+
+function onCleanup_close_netcdf(ncid)
+    if ncid
+        netcdf.close();
+    end
 end

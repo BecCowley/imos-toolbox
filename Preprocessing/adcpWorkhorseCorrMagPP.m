@@ -105,6 +105,9 @@ for k = 1:length(sample_data)
     
     % same flags are given to any variable
     for a = 1:4
+        %if the adcpWorkhorseEchoRangePP routine has already been run, there will
+        %be flags we need to retain. Keep the higher value flags.
+        eval(['f = sample_data{k}.variables{idVel' num2str(a) '}.flags;'])
         flags = ones(sizeCur, 'int8')*rawFlag;
         
         % Run QC. For this screening test, each beam is tested independently
@@ -112,6 +115,10 @@ for k = 1:length(sample_data)
         % Run QC filter (iFail) on velocity data
         flags(~iPass) = badFlag;
         flags(iPass) = goodFlag;
+        
+        %keep flags of highest value
+        idx = f > flags;
+        flags(idx) = f(idx);
         
         eval(['sample_data{k}.variables{idVel' num2str(a) '}.flags = flags;'])
         

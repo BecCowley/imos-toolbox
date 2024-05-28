@@ -167,10 +167,21 @@ for k = 1:length(sample_data)
     flags(flags == 1) = badFlag;
     flags(flags == 0) = goodFlag;
     
-    sample_data{k}.variables{idVel1}.flags = squeeze(flags(1,:,:));
-    sample_data{k}.variables{idVel2}.flags = squeeze(flags(2,:,:));
-    sample_data{k}.variables{idVel3}.flags = squeeze(flags(3,:,:));
-    sample_data{k}.variables{idVel4}.flags = squeeze(flags(4,:,:));
+    %if the adcpWorkhorseCorrMagPP routine has already been run, there will
+    %be flags we need to retain. Keep the higher value flags.
+    for a = 1:4
+        %if the adcpWorkhorseEchoRangePP routine has already been run, there will
+        %be flags we need to retain. Keep the higher value flags.
+        eval(['f = sample_data{k}.variables{idVel' num2str(a) '}.flags;'])
+        
+        ff = squeeze(flags(a,:,:));
+        
+        idx = f > ff;
+        ff(idx) = f(idx);
+        
+        eval(['sample_data{k}.variables{idVel' num2str(a) '}.flags = ff;'])
+    end
+    
     % write/update dataset QC parameters
     writeDatasetParameter(sample_data{k}.toolbox_input_file, currentQCtest, 'ea_fishthresh', ea_fishthresh);
     echorangecomment = ['adcpWorkhorseEchoRangePP.m: Echo Range preprocessing screening applied to beam velocities. Threshold = ' num2str(ea_fishthresh)];

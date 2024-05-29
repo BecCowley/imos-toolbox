@@ -635,7 +635,7 @@ classdef OceanContour
                     assert(meta.nBeams == 4 | meta.nBeams == 5);
                     %TODO: support variable nBeams. need more files.
                 catch
-                    errormsg('Only 4 Beam ADCP are supported. %s got %d nBeams', filename, meta.nBeams)
+                    errormsg('Only 4 or 5 Beam ADCPs are supported. %s got %d nBeams', filename, meta.nBeams)
                 end
 
                 magDec_User = get_att('magDec_User');

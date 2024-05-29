@@ -242,6 +242,7 @@ classdef OceanContour
                     % If DataInfo_average_data set and is delta time = DataInfo_average_window
                     % or delta time = DataInfo_average_window/2?
                     attmap.('instrument_burst_interval') = OceanContour.build_instrument_name(group_name, 'measurementInterval');
+                    attmap.('instrument_sample_rate') = flds{contains(flds, 'sampleRate')};
                     if has_data_been_averaged
                         attmap.('instrument_sample_interval') = flds{contains(flds,'average_window')};
                     end
@@ -773,7 +774,7 @@ classdef OceanContour
                 end
                 meta.beam_angle = default_beam_angle;
 
-                meta.('instrument_sample_interval') = single(get_att('instrument_sample_interval'));
+                meta.('instrument_sample_interval') = single(get_att('instrument_sample_interval')/get_att('instrument_sample_rate'));
 
                 % TODO
                 %mode_sampling_duration_str = ['instrument_' meta_attr_midname '_interval'];

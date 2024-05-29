@@ -455,7 +455,7 @@ classdef OceanContour
                 ENU.correlation_variables = [ENU.correlation_variables 'CMAG4'];
             end
 
-            ENU.two_dimensional = [ENU.velocity_variables, ENU.beam_amplitude_variables];
+            ENU.two_dimensional = [ENU.velocity_variables, ENU.beam_amplitude_variables, ENU.correlation_variables];
             ENU.all_variables = [ENU.one_dimensional, ENU.two_dimensional];
 
             %TODO: Implement Non-ENU cases.
@@ -475,7 +475,7 @@ classdef OceanContour
                 BEAM.correlation_variables = [BEAM.correlation_variables 'CMAG4'];
             end
 
-            BEAM.two_dimensional = [BEAM.velocity_variables, BEAM.beam_amplitude_variables];
+            BEAM.two_dimensional = [BEAM.velocity_variables, BEAM.beam_amplitude_variables, BEAM.correlation_variables];
             BEAM.all_variables = [BEAM.one_dimensional, BEAM.two_dimensional];
             
             imap.('BEAM') = BEAM;
@@ -493,7 +493,7 @@ classdef OceanContour
                 XYZ.correlation_variables = [XYZ.correlation_variables 'CMAG4'];
             end
 
-            XYZ.two_dimensional = [XYZ.velocity_variables, XYZ.beam_amplitude_variables];
+            XYZ.two_dimensional = [XYZ.velocity_variables, XYZ.beam_amplitude_variables, XYZ.correlation_variables];
             XYZ.all_variables = [XYZ.one_dimensional, XYZ.two_dimensional];
             
             imap.('XYZ') = XYZ;

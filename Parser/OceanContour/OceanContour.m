@@ -727,7 +727,7 @@ classdef OceanContour
                 iGood = logical(get_var('status'));
 				
                 if is_netcdf
-                    inst_serial_numbers = get_var('instrument_serial_no');
+                    inst_serial_numbers = get_att('instrument_serial_no');
                     if numel(unique(inst_serial_numbers)) > 1
                         dispmsg('Multi instrument serial numbers found in %s. Assuming the most frequent is the right one...', filename)    
                         inst_serial_no = mode(inst_serial_numbers);

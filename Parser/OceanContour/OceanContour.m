@@ -256,7 +256,7 @@ classdef OceanContour
 
         end
 
-        function [varmap] = get_varmap(ftype, group_name, nbeams, custom_magnetic_declination, binmapped, is_enu)
+        function [varmap] = get_varmap(ftype, vars, nbeams, custom_magnetic_declination, binmapped, is_enu)
             %function [varmap] = get_varmap(ftype, group_name,nbeams,custom_magnetic_declination)
             %
             % Generate dynamical variable mappings for a certain
@@ -302,8 +302,8 @@ classdef OceanContour
                 errormsg('First argument is not a string')
             elseif ~strcmpi(ftype, 'mat') && ~strcmpi(ftype, 'netcdf')
                 errormsg('First argument %s is an invalid ftype. Accepted file types are ''mat'' and ''netcdf''.', ftype)
-            elseif ~ischar(group_name)
-                errormsg('Second argument is not a string')
+            elseif ~isstruct(vars)
+                errormsg('Second argument is not a structure')
             elseif ~isscalar(nbeams)
                 errormsg('Third argument is not a scalar')
             elseif ~islogical(custom_magnetic_declination)
@@ -314,51 +314,46 @@ classdef OceanContour
 
             is_netcdf = strcmpi(ftype, 'netcdf');
             [ucur_name, vcur_name, heading_name] = OceanContour.build_magnetic_variables(custom_magnetic_declination);
-
+            
+            flds = fieldnames(vars);
             varmap = struct();
             varmap.('binSize') = 'CellSize';
             varmap.('TIME') = 'MatlabTimeStamp';
             varmap.('TIME_CFTIME') = 'time';
             
-            prefix = '';
-            if binmapped
-                prefix = 'BinMap';
-            end
-
             if is_netcdf
-                varmap.('instrument_serial_no') = 'SerialNumber';
                 varmap.('status') = 'Status';
                 %TODO: reinforce uppercase at first letter? nEed to see more files.
-                varmap.('HEIGHT_ABOVE_SENSOR') = [prefix group_name 'VelocityENU_Range'];
+                varmap.('HEIGHT_ABOVE_SENSOR') = flds{contains(flds, 'VelocityENU_Range')};
                 %TODO: Handle magnetic & along beam cases.
                 %varmap.('DIST_ALONG_BEAMS') = [group_name 'Velocity???_Range'];
                 %TODO: evaluate if when magnetic declination is provided, the
                 %velocity fields will be corrected or not (as well as any rename/comments added).
                 varmap.(heading_name) = 'Heading';
                 if is_enu
-                    varmap.(ucur_name) = [prefix 'Vel_East'];
-                    varmap.(vcur_name) = [prefix 'Vel_North'];
-                    varmap.('WCUR') = [prefix 'Vel_Up1'];
+                    varmap.(ucur_name) = flds{contains(flds, 'Vel_East')};
+                    varmap.(vcur_name) = flds{contains(flds, 'Vel_North')};
+                    varmap.('WCUR') = flds{contains(flds, 'Vel_Up1')};
                 else
                     varmap.('VEL1') = 'Vel_Beam1';
                     varmap.('VEL2') = 'Vel_Beam2';
                     varmap.('VEL3') = 'Vel_Beam3';                    
                 end
-                varmap.('ABSI1') = [prefix 'Amp_Beam1'];
-                varmap.('ABSI2') = [prefix 'Amp_Beam2'];
-                varmap.('ABSI3') = [prefix 'Amp_Beam3'];
-                varmap.('CMAG1') = [prefix 'Cor_Beam1'];
-                varmap.('CMAG2') = [prefix 'Cor_Beam2'];
-                varmap.('CMAG3') = [prefix 'Cor_Beam3'];
+                varmap.('ABSI1') = flds{contains(flds, 'Amp_Beam1')};
+                varmap.('ABSI2') = flds{contains(flds,'Amp_Beam2')};
+                varmap.('ABSI3') = flds{contains(flds, 'Amp_Beam3')};
+                varmap.('CMAG1') = flds{contains(flds, 'Cor_Beam1')};
+                varmap.('CMAG2') = flds{contains(flds, 'Cor_Beam2')};
+                varmap.('CMAG3') = flds{contains(flds, 'Cor_Beam3')};
 
                 if nbeams > 3
                     if is_enu
-                        varmap.('WCUR_2') = [prefix 'Vel_Up2'];
+                        varmap.('WCUR_2') = flds{contains(flds,'Vel_Up2')};
                     else
                         varmap.('VEL4') = 'Vel_Beam4';
                     end
-                    varmap.('ABSI4') = [prefix 'Amp_Beam4'];
-                    varmap.('CMAG4') = [prefix 'Cor_Beam4'];
+                    varmap.('ABSI4') = flds{contains(flds, 'Amp_Beam4')};
+                    varmap.('CMAG4') = flds{contains(flds, 'Cor_Beam4')};
                 end
 
             else
@@ -369,29 +364,29 @@ classdef OceanContour
                 varmap.('HEIGHT_ABOVE_SENSOR') = 'Range';
                 varmap.(heading_name) = 'Heading';
                 if is_enu
-                    varmap.(ucur_name) = [prefix 'VelEast'];
-                    varmap.(vcur_name) = [prefix 'VelNorth'];
-                    varmap.('WCUR') = [prefix 'VelUp1'];
+                    varmap.(ucur_name) = flds{contains(flds, 'VelEast')};
+                    varmap.(vcur_name) = flds{contains(flds, 'VelNorth')};
+                    varmap.('WCUR') = flds{contains(flds, 'VelUp1')};
                 else
                     varmap.('VEL1') = 'VelBeam1';
                     varmap.('VEL2') = 'VelBeam2';
                     varmap.('VEL3') = 'VelBeam3';
                 end
-                varmap.('ABSI1') = [prefix 'AmpBeam1'];
-                varmap.('ABSI2') = [prefix 'AmpBeam2'];
-                varmap.('ABSI3') = [prefix 'AmpBeam3'];
-                varmap.('CMAG1') = [prefix 'CorBeam1'];
-                varmap.('CMAG2') = [prefix 'CorBeam2'];
-                varmap.('CMAG3') = [prefix 'CorBeam3'];
+                varmap.('ABSI1') = flds{contains(flds, 'AmpBeam1')};
+                varmap.('ABSI2') = flds{contains(flds, 'AmpBeam2')};
+                varmap.('ABSI3') = flds{contains(flds, 'AmpBeam3')};
+                varmap.('CMAG1') = flds{contains(flds, 'CorBeam1')};
+                varmap.('CMAG2') = flds{contains(flds, 'CorBeam2')};
+                varmap.('CMAG3') = flds{contains(flds, 'CorBeam3')};
 
                 if nbeams > 3
                     if is_enu
-                        varmap.('WCUR_2') = [prefix 'VelUp2'];
+                        varmap.('WCUR_2') = flds{contains(flds, 'VelUp2')};
                     else
                         varmap.('VEL4') = 'VelBeam4';
                     end
-                    varmap.('ABSI4') = [prefix 'AmpBeam4'];
-                    varmap.('CMAG4') = [prefix 'CorBeam4'];
+                    varmap.('ABSI4') = flds{contains(flds, 'AmpBeam4')};
+                    varmap.('CMAG4') = flds{contains(flds, 'CorBeam4')};
                 end
 
             end

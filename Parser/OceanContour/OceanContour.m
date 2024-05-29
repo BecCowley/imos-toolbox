@@ -681,7 +681,7 @@ classdef OceanContour
                     case {'XYZ', 'BEAM'}
                         meta.coordinate_system = coordinate_system;
                         try
-                            has_converted_to_enu = logical(get_att('converted_to_enu'));
+                            has_converted_to_enu = matches(get_att('converted_to_enu'), 'ENU coordinates added');
                         catch
                             has_converted_to_enu = false;
                         end

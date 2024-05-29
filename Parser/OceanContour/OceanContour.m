@@ -786,32 +786,6 @@ classdef OceanContour
                     dispmsg('Inconsistent instrument sampling interval in %s . Metadata is set to %d, while time variable indicates %d. Using variable estimates...', filename, expected, actual_sample_interval);
                     meta.('instrument_sample_interval') = actual_sample_interval;                    
                 end
-
-                % if waves data force to ENU?
-                if is_waves
-                    meta.coordinate_system = 'ENU';
-                else
-                    coordinate_system = get_att('coordinate_system');
-                    switch coordinate_system
-                        case 'BEAM'
-                            if logical(get_att('converted_to_enu'))
-                                meta.coordinate_system = 'ENU';
-                            else
-                                errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
-                            end
-                        case 'XYZ'
-                            if logical(get_att('converted_to_enu'))
-                                meta.coordinate_system = 'ENU';
-                            else
-                                errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
-                            end
-                        case 'ENU'
-                            meta.coordinate_system = 'ENU';
-                            % OK
-                        otherwise
-                            errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
-                    end
-                end
               
                 z = get_var('HEIGHT_ABOVE_SENSOR');              
                 try

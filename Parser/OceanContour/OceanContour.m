@@ -184,11 +184,19 @@ classdef OceanContour
 
             meta_attr_midname = OceanContour.build_meta_attr_midname(group_name);
 
-            attmap.('instrument_model') = 'Instrument_instrumentName';
-            attmap.('beam_angle') = 'DataInfo_slantAngles';
-            attmap.('beam_interval') = 'DataInfo_slantAngles';
-            attmap.('coordinate_system') = OceanContour.build_instrument_name(group_name, 'coordSystem');
-            attmap.('converted_to_enu') = 'DataInfo_transformsAndCorrections_addENU';
+            % attribute names seem to be different for different files, eg,
+            % CSIRO ones don't have the 'Instrument' prefix for all. Let's
+            % try finding the suffixes and matching that way
+
+            flds = fields(file_metadata);
+            iignore = endsWith(flds,'description');
+            descflds = flds(iignore);
+            flds = flds(~iignore);
+            attmap.('instrument_model') = flds{contains(flds,'instrumentName')};
+            attmap.('beam_angle') = flds{contains(flds,'slantAngles')};
+            %attmap.('beam_interval') = OceanContour.build_instrument_name(group_name, 'slantAngles');
+            attmap.('coordinate_system') = flds{contains(flds,'coordSystem')};
+            attmap.('converted_to_enu') = descflds{contains(descflds,'transformsAndCorrections_addENU_description')};
             
             % while this might be a waves file, some info is 'avg' prefix
             if isfield(file_metadata, 'Instrument_avg_enable') & logical(file_metadata.Instrument_avg_enable)
@@ -197,20 +205,27 @@ classdef OceanContour
                 inst_data_name = 'burst';
             end
             has_data_been_averaged = false;
-            if isfield(file_metadata, 'DataInfo_average_data') & logical(file_metadata.DataInfo_average_data)
-                has_data_been_averaged = true;
+            iaverage = find(contains(flds,'average_data'));
+            if ~isempty(iaverage) 
+                if logical(file_metadata.(flds{iaverage}))
+                    has_data_been_averaged = true;
+                end
             end
             
-            attmap.('nBeams') = OceanContour.build_instrument_name(group_name, 'nBeams');
-            attmap.('activeBeams') = OceanContour.build_instrument_name(group_name, 'activeBeams'); %no previous name
-            attmap.('magDec_User') = 'Instrument_user_decl';
-            attmap.('magDec_DataInfo') = 'DataInfo_transformsAndCorrections_magneticDeclination';
-            attmap.('binMapping') = 'DataInfo_transformsAndCorrections_binMapping';            
-            attmap.('binMapping_applied') = 'DataInfo_transformsAndCorrections_binMapping_description';    
+            attmap.('nBeams') = flds{contains(flds,'nBeams')};
+            attmap.('activeBeams') = flds{contains(flds,'activeBeams')}; %no previous name
+            attmap.('magDec_DataInfo') = flds{contains(flds,'trig_en')};
+            attmap.('magDec_User') = flds{contains(flds,'Instrument_user_decl')};
+            attmap.('binMapping') = flds{contains(flds,'transformsAndCorrections_binMapping')};            
+            attmap.('binMapping_applied') = descflds{contains(descflds,'transformsAndCorrections_binMapping_description')};    
  
             if strcmpi(ftype, 'mat')
                 attmap.('instrument_serial_no') = 'Instrument_serialNumberDoppler';
                 attmap.('binSize') = OceanContour.build_instrument_name(group_name, 'cellSize');
+            else
+                attmap.('instrument_serial_no') = flds{contains(flds,'serial')};
+                attmap.('binSize') = flds{contains(flds,['Instrument_' meta_attr_midname '_cellSize'])};
+
             end
 
             %custom & dynamical fields
@@ -226,9 +241,9 @@ classdef OceanContour
                     % the timestep
                     % If DataInfo_average_data set and is delta time = DataInfo_average_window
                     % or delta time = DataInfo_average_window/2?
-                    attmap.('instrument_burst_interval') = OceanContour.build_instrument_name(group_name, 'burstInterval');
-                    if isfield(file_metadata, 'DataInfo_average_data') & file_metadata.DataInfo_average_data
-                        attmap.('instrument_sample_interval') = 'DataInfo_average_window';
+                    attmap.('instrument_burst_interval') = OceanContour.build_instrument_name(group_name, 'measurementInterval');
+                    if has_data_been_averaged
+                        attmap.('instrument_sample_interval') = flds{contains(flds,'average_window')};
                     end
                 case 'bursthr'
                     attmap.('instrument_bursthr_interval') = OceanContour.build_instrument_name(group_name, 'burstHourlyInterval');

@@ -694,7 +694,7 @@ classdef OceanContour
                         errormsg('Unsuported coordinates. %s contains non-ENU data.', filename)
                 end
                 is_enu = strcmp(meta.coordinate_system, 'ENU');
-                var_mapping = OceanContour.get_varmap(ftype, group_name, nBeams, custom_magnetic_declination, is_binmapped, is_enu);
+                var_mapping = OceanContour.get_varmap(ftype, data_metadata.(group_name).Variables, nBeams, custom_magnetic_declination, binmapped, is_enu);
                 import_mapping = OceanContour.get_importmap(nBeams, custom_magnetic_declination);
 
                 %subset the global metadata fields to only the respective group.

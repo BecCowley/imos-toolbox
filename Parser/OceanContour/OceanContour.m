@@ -668,10 +668,7 @@ classdef OceanContour
                     binmapped = false;
                 end
                 
-                is_waves = false;
-                if isfield(file_metadata, 'DataInfo_waves_processing')
-                    is_waves = true;
-                end
+                is_waves = contains(group_name,'Waves');
                 
                 %Now that we know some preliminary info, we can load the variable
                 % name mappings and the list of variables to import.

@@ -879,10 +879,7 @@ classdef OceanContour
 
                 sample_data{k} = dataset;
             end
-            
-            if is_netcdf
-                netcdf.close(ncid);
-            end
+
         end
 
     end

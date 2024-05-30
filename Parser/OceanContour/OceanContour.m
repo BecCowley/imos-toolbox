@@ -857,14 +857,32 @@ classdef OceanContour
                     twodim_vdatamask = [];
                 end
                 has_data_mask = ~isempty(twodim_vdatamask);
-                meta.twodim_vdatamask = twodim_vdatamask;
                 
                 %TODO: Implement unit conversions monads.
-                variables = [...
-                            IMOS.featuretype_variables('timeSeries'), ...
-                            IMOS.gen_variables(dimensions, onedim_vnames, onedim_vtypes, onedim_vdata, 'coordinates', onedim_vcoords), ...
-                            IMOS.gen_variables(dimensions, twodim_vnames, twodim_vtypes, twodim_vdata, 'coordinates', twodim_vcoords), ...
-                            ];
+                if has_data_mask
+                    twodim_vdatamask(twodim_vdatamask == 64) = 4;
+                    twodim_vdatamask(twodim_vdatamask == 0) = 1;
+                    twodim_vdatamask = int8(twodim_vdatamask);
+                    meta.twodim_vdatamask = twodim_vdatamask;
+                    % include flags for the appropriate variables. Assumes
+                    % that vars 1 to 2 of the onedim vars are TEMP and
+                    % PRES_REL; vars 1:6 of the twodim vars are the UCUR,
+                    % VCUR, WCUR, CSPD, CDIR, WCUR_2. Will not be correct if this is
+                    % not the case. Can be smarter about this.
+                    variables = [...
+                        IMOS.featuretype_variables('timeSeries'), ...
+                        IMOS.gen_variables(dimensions, onedim_vnames(1:2), onedim_vtypes(1:2), onedim_vdata(1:2), 'coordinates', onedim_vcoords, 'flags', mode(twodim_vdatamask')'), ...
+                        IMOS.gen_variables(dimensions, onedim_vnames(3:end), onedim_vtypes(3:end), onedim_vdata(3:end), 'coordinates', onedim_vcoords), ...
+                        IMOS.gen_variables(dimensions, twodim_vnames(1:6), twodim_vtypes(1:6), twodim_vdata(1:6), 'coordinates', twodim_vcoords, 'flags',twodim_vdatamask), ...
+                        IMOS.gen_variables(dimensions, twodim_vnames(7:end), twodim_vtypes(7:end), twodim_vdata(7:end), 'coordinates', twodim_vcoords), ...
+                        ];
+                else
+                    variables = [...
+                        IMOS.featuretype_variables('timeSeries'), ...
+                        IMOS.gen_variables(dimensions, onedim_vnames, onedim_vtypes, onedim_vdata, 'coordinates', onedim_vcoords), ...
+                        IMOS.gen_variables(dimensions, twodim_vnames, twodim_vtypes, twodim_vdata, 'coordinates', twodim_vcoords), ...
+                        ];
+                end
 
                 dataset = struct();
                 dataset.toolbox_input_file = filename;
@@ -875,6 +893,9 @@ classdef OceanContour
                 dataset.variables = variables;
 
                 sample_data{k} = dataset;
+                if has_data_mask
+                    sample_data{k}.meta.level = 1;
+                end
             end
 
         end

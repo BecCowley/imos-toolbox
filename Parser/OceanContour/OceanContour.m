@@ -356,6 +356,14 @@ classdef OceanContour
                     varmap.('CMAG4') = flds{contains(flds, 'Cor_Beam4')};
                 end
 
+                if sum(matches(flds, 'Speed'))==1
+                    varmap.('CSPD') = 'Speed';
+                end
+                if sum(matches(flds,'SpeedENU_Direction'))==1
+                    varmap.('CDIR') = 'SpeedENU_Direction';
+                end
+
+
             else
                 %TODO: check if norteks also change the variable names
                 %when exporting to matlab.
@@ -445,7 +453,7 @@ classdef OceanContour
             ENU = struct();
 
             ENU.one_dimensional = {'TEMP', 'PRES_REL', 'SSPD', 'BAT_VOLT', 'PITCH', 'ROLL', heading_name, 'ERROR', 'AMBIG_VEL', 'TRANSMIT_E', 'NOMINAL_CORR'};
-            ENU.velocity_variables = {ucur_name, vcur_name, 'WCUR'};
+            ENU.velocity_variables = {ucur_name, vcur_name, 'WCUR', 'CSPD', 'CDIR'};
             ENU.beam_amplitude_variables = {'ABSI1', 'ABSI2', 'ABSI3'};
             ENU.correlation_variables = {'CMAG1', 'CMAG2', 'CMAG3'};
 
@@ -465,7 +473,7 @@ classdef OceanContour
             BEAM = struct();
 
             BEAM.one_dimensional = {'TEMP', 'PRES_REL', 'SSPD', 'BAT_VOLT', 'PITCH', 'ROLL', heading_name, 'ERROR', 'AMBIG_VEL', 'TRANSMIT_E', 'NOMINAL_CORR'};
-            BEAM.velocity_variables = {'VEL1', 'VEL2', 'VEL3'};
+            BEAM.velocity_variables = {'VEL1', 'VEL2', 'VEL3', 'CSPD', 'CDIR'};
             BEAM.beam_amplitude_variables = {'ABSI1', 'ABSI2', 'ABSI3'};
             BEAM.correlation_variables = {'CMAG1', 'CMAG2', 'CMAG3'};
 
@@ -483,7 +491,7 @@ classdef OceanContour
             XYZ = struct();
 
             XYZ.one_dimensional = {'TEMP', 'PRES_REL', 'SSPD', 'BAT_VOLT', 'PITCH', 'ROLL', heading_name, 'ERROR', 'AMBIG_VEL', 'TRANSMIT_E', 'NOMINAL_CORR'};
-            XYZ.velocity_variables = {'VEL1', 'VEL2', 'VEL3'};
+            XYZ.velocity_variables = {'VEL1', 'VEL2', 'VEL3', 'CSPD', 'CDIR'};
             XYZ.beam_amplitude_variables = {'ABSI1', 'ABSI2', 'ABSI3'};
             XYZ.correlation_variables = {'CMAG1', 'CMAG2', 'CMAG3'};
 

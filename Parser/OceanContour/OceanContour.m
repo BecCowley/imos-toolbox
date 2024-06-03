@@ -256,6 +256,66 @@ classdef OceanContour
 
         end
 
+        function [transandcorrs] = get_transforms_and_corrections(filename)
+            %function [transformsandcorrections] = get_transforms_and_corrections(filename)
+            %
+            % Read associated *.txt files that contain information on what
+            % processing was done in the OceanCurrent Software
+            %
+            % Inputs:
+            %
+            % filename - original netcdf or matlab filename
+            %
+            % Outputs:
+            % 
+            % transandcorrs [struct[str,double]]
+            %
+            % Example:
+            %             Beam_Coordinates: 1
+            %                 XYZ_Coordinates: 0
+            %                       XYZ_Speed: 0
+            %                 ENU_Coordinates: 1
+            %                       ENU_Speed: 1
+            %                     Bin_Mapping: 0
+            %     Subsurface_Depth_Correction: 0
+            %           Compass_Recalibration: 0
+            %            Magnetic_Declination: 13.6000
+            %                 Pressure_Offset: 0
+            %                  File_Extension: NaN
+            %
+            % author: rebecca.cowley@csiro.au
+
+            % TODO: enable the user to select an input directory if the
+            % files are not in the same directory as the netcdf or mat
+            % files.
+
+            narginchk(1, 1)
+            % derive the *.txt filename from the netcdf filename
+            [filepath, name, ext] = fileparts(filename);
+            fn = strsplit(name,'.');
+            txtlist = dir([filepath filesep '*.txt']);
+            if isempty(txtlist)
+                disp(['No matching *.txt files found to read transformations and corrections applied for file ' name])
+                transandcorrs = [];
+                return
+            end
+            for a = 1:length(txtlist)
+                if contains(txtlist(a).name, fn{1})
+                    % read the file into a structure
+                    fid = fopen(txtlist(a).name);
+                    str = textscan(fid,'%s%f','delimiter',':', 'headerlines',1);
+                    fclose(fid);
+                    for b = 1:length(str{1})
+                        ss = strrep(str{1}{b},' ','_');
+                        transandcorrs.(ss) = str{2}(b);
+                    end
+                    return
+                else
+                    transandcorrs = [];
+                end
+            end
+        end
+
         function [varmap] = get_varmap(ftype, vars, nbeams, custom_magnetic_declination, binmapped, is_enu)
             %function [varmap] = get_varmap(ftype, group_name,nbeams,custom_magnetic_declination)
             %
@@ -611,6 +671,10 @@ classdef OceanContour
 
             end
 
+            % read the transformations and corrections information if
+            % available
+            transandcorrs = OceanContour.get_transforms_and_corrections(filename);
+            
             n_datasets = numel(dataset_groups);
             sample_data = cell(1, n_datasets);
 
@@ -646,8 +710,14 @@ classdef OceanContour
                     errormsg('Only 4 or 5 Beam ADCPs are supported. %s got %d nBeams', filename, meta.nBeams)
                 end
 
-                magDec_User = get_att('magDec_User');
-                has_magdec_user = logical(magDec_User);
+                meta.magDec = 0.0;
+                if ~isempty(transandcorrs)
+                    magDec_User = transandcorrs.Magnetic_Declination;
+                    has_magdec_user = true;
+                else
+                    magDec_User = get_att('magDec_User');
+                    has_magdec_user = logical(magDec_User);
+                end
                 try
                     magDec_DataInfo = get_att('magDec_DataInfo');
                     has_magdec_oceancontour = logical(magDec_DataInfo);
@@ -655,7 +725,6 @@ classdef OceanContour
                     magDec_DataInfo = NaN;
                     has_magdec_oceancontour = false;
                 end
-                meta.magDec = 0.0;
                 custom_magnetic_declination = has_magdec_user | has_magdec_oceancontour;
                 if has_magdec_oceancontour
                     meta.magDec = magDec_DataInfo;
@@ -669,11 +738,17 @@ classdef OceanContour
                     meta.binMapping = false;
                 end
 
-                try
-                    meta.binMapping = strcmp(get_att('binMapping_applied'), 'Bin mapping applied');
+                if ~isempty(transandcorrs)
+                    meta.binMapping = logical(transandcorrs.Bin_Mapping);
                     binmapped = logical(meta.binMapping);
-                catch
-                    binmapped = false;
+          
+                else
+                    try
+                        meta.binMapping = strcmp(get_att('binMapping_applied'), 'Bin mapping applied');
+                        binmapped = logical(meta.binMapping);
+                    catch
+                        binmapped = false;
+                    end
                 end
                 
                 is_waves = contains(group_name,'Waves');

@@ -940,6 +940,11 @@ classdef OceanContour
                     twodim_vdatamask = [];
                 end
                 has_data_mask = ~isempty(twodim_vdatamask);
+
+                % TODO: need to put comments in about magnetic declination
+                % amount and binmapping if they are applied. They go in the
+                % comments attached to the variables. Also a global comment
+                % about processing applied in OceanContour.
                 
                 %TODO: Implement unit conversions monads.
                 if has_data_mask

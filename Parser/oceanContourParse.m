@@ -39,12 +39,19 @@ end
 % returns cell array
 sample_data = OceanContour.readOceanContourFile(filename);
 
+
+% check for WAVES files and add any data to the sample_data structure.
+
 [filePath, fileRadName, ~] = fileparts(filename);
-waveFile = fullfile(filePath, [fileRadName '_waves.nc']);
-isWaveData = exist(filename, 'file') && exist(waveFile, 'file');
+fn = strsplit(fileRadName,'.');
+txtlist = dir([filePath filesep '*waves.nc']);
 
-if isWaveData
-      sample_data = [sample_data, OceanContourWaves.readOceanContourFile(waveFile)];
+if ~isempty(txtlist)
+    txtlist = struct2cell(txtlist);
+    flist = txtlist(1,:);
+    if any(contains(flist, fn{1})) % has a corresponding WAVES file
+        waveFile = [filePath, filesep, flist{contains(flist, fn{1})}];
+        sample_data = [sample_data, OceanContourWaves.readOceanContourFile(waveFile)];
+    end
 end
-
 end

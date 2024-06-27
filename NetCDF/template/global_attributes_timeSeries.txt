@@ -2,11 +2,11 @@
 S, project                      = Integrated Marine Observing System (IMOS)
 S, Conventions                  = CF-1.6,IMOS-1.4
 S, standard_name_vocabulary     = NetCDF Climate and Forecast (CF) Metadata Convention Standard Name Table 45
-S, title                        = Data collected from the 2019 to 2021 deployment of East Australian Current (EAC) moorings
+S, title                        = [ddb Site Sites researchactivity]
 S, institution                  = 
 D, date_created                 = [mat now_utc]
 D, date_modified                = 
-S, abstract                     = The aim of the East Australian Current (EAC) moorings is to capture the mean and time-varying flow of the EAC. This dataset will provide an intensive reference set of measurements of the EAC flow over a sustained period. Ship data collected during the recovery voyage is available from the CSIRO Oceans and Atmosphere Data Centre. The voyage number is IN2021_V03.
+S, abstract                     = [ddb Site Sites Description]
 S, comment                      = [ddb Comment]
 S, source                       = [ddb DeploymentType]
 S, instrument                   = [ddb InstrumentID Instruments Make] [ddb InstrumentID Instruments Model]
@@ -68,8 +68,8 @@ S, data_centre                  = Australian Ocean Data Network (AODN)
 S, data_centre_email            = info@aodn.org.au
 S, author_email                 = rebecca.cowley@csiro.au
 S, author                       = Rebecca Cowley
-S, principal_investigator       = Bernadette Sloyan
-S, principal_investigator_email = Bernadette.Sloyan@csiro.au
+S, principal_investigator       = Benoit Legresy
+S, principal_investigator_email = Benoit.Legresy@csiro.au
 S, institution_references       = http://www.imos.org.au/aodn.html
 
 % how

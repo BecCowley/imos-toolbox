@@ -1,21 +1,19 @@
 % filename or ODBC DSN of MS-ACCESS deployment database
 % ex. : /home/ggalibert/OceanDB.mdb or imos-ddb
-
-%toolbox.ddb = /home/cow074/ocean_obs/EACdata/mooring/IMOScsvfiles/
-toolbox.ddb = /oa-decadal-climate/work/observations/oceanobs_data/EACdata/mooring/IMOScsvfiles/
+toolbox.ddb = IMOS-DEPLOY
 
 % or full connection details to other kind of deployment database :
 % class name of JDBC database driver
 % ex. : net.ucanaccess.jdbc.UcanaccessDriver
-toolbox.ddb.driver =
+toolbox.ddb.driver = org.postgresql.Driver
 
 % database connection string, must include user and password if required by the database
 % ex. : "jdbc:ucanaccess:///home/ggalibert/OceanDB.mdb;jackcessOpener=org.imos.ddb.CryptCodecOpener"
-toolbox.ddb.connection =
+toolbox.ddb.connection = jdbc:postgresql://mooring-data.it.csiro.au/IMOS-DEPLOY
 
 % user's login and password to database
-toolbox.ddb.user =
-toolbox.ddb.password =
+toolbox.ddb.user = csiro
+toolbox.ddb.password = imosHV00112j
 
 % toolbox execution mode. Values can be 'timeSeries' or 'profile'.
 toolbox.mode = timeSeries
@@ -70,7 +68,7 @@ preprocessManager.preprocessDefaultChain.timeSeries = depthPP salinityPP oxygenP
 preprocessManager.preprocessDefaultChain.profile = depthPP salinityPP oxygenPP
 
 % last selected set of preprocessing routines
-preprocessManager.preprocessChain.timeSeries = adcpBinMappingPP adcpWorkhorseCorrMagPP adcpWorkhorseEchoRangePP adcpWorkhorseVelocityBeam2EnuPP adcpWorkhorseRDIensembleAveragingPP magneticDeclinationPP
+preprocessManager.preprocessChain.timeSeries = depthPP
 preprocessManager.preprocessChain.profile = depthPP salinityPP oxygenPP
 
 % file status dialog formatting styles
@@ -81,20 +79,20 @@ dataFileStatusDialog.noFileFormat          = bold
 dataFileStatusDialog.multipleFileFormat    = italic
 
 % last selected values for start dialog
-startDialog.dataDir.timeSeries = /oa-decadal-climate/work/observations/oceanobs_data/EACdata/mooring/EAC1909_2105/raw_data
+startDialog.dataDir.timeSeries = /Users/cow074/code/srs_mooring_data
 startDialog.dataDir.profile = 
-startDialog.fieldTrip.timeSeries = EAC-2021-05-06
+startDialog.fieldTrip.timeSeries = SWOT-2023-08-05
 startDialog.fieldTrip.profile = 
-startDialog.lowDate.timeSeries = 712224
+startDialog.lowDate.timeSeries = 738522
 startDialog.lowDate.profile = 
-startDialog.highDate.timeSeries = 738501
+startDialog.highDate.timeSeries = 739353
 startDialog.highDate.profile = 
 
 % last selected directory for manual data import
-importManager.manualDir =
+importManager.manualDir = /Users/cow074/code/srs_mooring_data/
 
 % last selected directory for file export
-exportDialog.defaultDir = /oa-decadal-climate/work/observations/oceanobs_data/EACdata/mooring/EAC1909_2105/data_processing/IMOSnetcdf/EAC0500
+exportDialog.defaultDir = /Users/cow074/code/srs_mooring_data/imosoutput
 
 % prompt user to select parser if an appropriate one
 % cannot be found (if false, the data is not imported)
